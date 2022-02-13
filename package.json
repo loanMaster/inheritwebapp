@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "cross-env USER_FRONT_TENANT=demo1234 vue-cli-service serve",
-    "build-test": "cross-env USER_FRONT_TENANT=rbv6rmdb vue-cli-service build && npm run copy-dist-folder",
-    "build": "cross-env USER_FRONT_TENANT=9ny8pmrb vue-cli-service build && npm run copy-dist-folder",
+    "build-test": "cross-env USER_FRONT_TENANT=rbv6rmdb vue-cli-service build",
+    "build": "cross-env USER_FRONT_TENANT=9ny8pmrb vue-cli-service build",
     "eslint": "eslint --ext .ts,.vue src tests --fix",
-    "copy-dist-folder": "copyfiles ./dist/**/* ../webclient_dist -u 1",
     "integrationtest": "cross-env WEBSITE_PATH=http://localhost:8080 playwright test --headed",
     "integrationtest-ci": "cross-env WEBSITE_PATH=http://localhost:8080 playwright test"
   },
@@ -38,7 +37,6 @@
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/eslint-config-typescript": "^7.0.0",
-    "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.2",
