@@ -77,7 +77,7 @@
             v-model="pass"
             maxlength="50"
             :disabled="savingData"
-            minlength="1"
+            minlength="12"
             test="password-input"
             required
           />

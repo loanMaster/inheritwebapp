@@ -1,17 +1,14 @@
 <template>
   <div class="my-inner-block-wide">
     <div class="justify">
-      <div class="bulletpoint">
-        🤨 What is <i>{{ appTitle }}</i
-        >?
-      </div>
-      <i>{{ appTitle }}</i> is a service that enables users to easily inherit
+      <div class="bulletpoint">🤨 What is <i>my-legacy</i>?</div>
+      <i>my-legacy</i> is a service that enables users to easily inherit
       documents (pdfs, text files, crypto keys or any other file) to theirs
       heirs. The service is suitable to inherit any type of file to friends or
       family in case of death.
 
       <div class="bulletpoint">
-        🤔 What problem does <i>{{ appTitle }}</i> solve?
+        🤔 What problem does <i>my-legacy</i> solve?
       </div>
       The traditional way of inheriting important data is to deposit a "last
       will" at a bank or a notary. However, this approach comes with caveats:<br />
@@ -23,8 +20,8 @@
       digitally. A physical storage is old fashioned.<br />
       (5) Lack of anonymity<br />
       <br />
-      {{ appTitle }} addresses these issues providing a dead man's switch. The
-      user can select files which are then zipped and encrypted using the
+      my-legacy addresses these issues providing a dead man's switch. The user
+      can select files which are then zipped and encrypted using the
       state-of-the-art
       <a href="https://w3c.github.io/webcrypto/">Web Cryptography API</a> in the
       browser. The encrypted archive is stored in the
@@ -53,21 +50,20 @@
         <img src="/instructions/instruction2.png" />
       </div>
 
-      1. <i>{{ appTitle }}</i> will periodically send a
-      <i>health check</i> email to you. This email contains a link. Click on the
-      link to confirm the reception of the email.<br />
+      1. <i>my-legacy</i> will periodically send a <i>health check</i> email to
+      you. This email contains a link. Click on the link to confirm the
+      reception of the email.<br />
       2. If you do not confirm the reception of the <i>health check</i> and do
       not respond to the <i>reminder</i> emails neither, the system will
-      conclude that you are dead. <i>{{ appTitle }}</i> will contact your heirs
-      via email.
+      conclude that you are dead. <i>my-legacy</i> will contact your heirs via
+      email.
 
       <div class="mt-4 mb-4 my-center">
         <img src="/instructions/instruction3.png" />
       </div>
 
-      1. <i>{{ appTitle }}</i> sends a link to the archive(s) you prepared
-      previously to your heirs, including the initialization vector used for
-      encryption.<br />
+      1. <i>my-legacy</i> sends a link to the archive(s) you prepared previously
+      to your heirs, including the initialization vector used for encryption.<br />
       2. Your heirs can know access and decrypt the archive using the password
       you shared with them previously.
       <br /><br />
@@ -85,16 +81,16 @@
       encryption. Once the dead man's switch is triggered your heirs will
       receive the missing information via email.
       <div class="bulletpoint">
-        🔓 What happens if the <i>{{ appTitle }}</i> database is hacked?
+        🔓 What happens if the <i>my-legacy</i> database is hacked?
       </div>
-      If the <i>{{ appTitle }}</i> database is hacked, the hackers will gain
+      If the <i>my-legacy</i> database is hacked, the hackers will gain
       information where the encrypted archives are located and what
       initialization vector for the encryption was used. The attackers will not
       know the password to your archive however, and therefore can not access
       your data.
       <div class="bulletpoint">💀 What happens when I die?</div>
-      <i>{{ appTitle }}</i> will send you <i>health check</i> emails regularly.
-      If you die, you will no longer be able to confirm the reception of such an
+      <i>my-legacy</i> will send you <i>health check</i> emails regularly. If
+      you die, you will no longer be able to confirm the reception of such an
       email. The system will send you 3 reminder emails, which you won't be able
       to respond to, neither. The system will conclude that you are dead and
       send the messages containing links to the archives you prepared to your
@@ -133,19 +129,18 @@
       <a href="https://github.com/loanMaster/inheritwebapp">here</a>.
 
       <div class="bulletpoint">
-        🗑 Emails from <i>{{ appTitle }}</i> end up in my spam folder
+        🗑 Emails from <i>my-legacy</i> end up in my spam folder
       </div>
       This behavior is clearly not desired, as you may overlook important emails
-      sent by the <i>{{ appTitle }}</i> service. Try to configure your mailbox
-      not to treat emails by <i>{{ appTitle }}</i> as spam. <br /><br />
+      sent by the <i>my-legacy</i> service. Try to configure your mailbox not to
+      treat emails by <i>my-legacy</i> as spam. <br /><br />
       It is recommended to inform your heirs that you have an account at
-      <i>{{ appTitle }}</i
-      >. Your heirs can contact <i>{{ appTitle }}</i> at any time such that a
-      message which got lost in a spam folder can be delivered once more.
+      <i>my-legacy</i>. Your heirs can contact <i>my-legacy</i> at any time such
+      that a message which got lost in a spam folder can be delivered once more.
 
       <div class="bulletpoint">
         😳 I do not want be to overwhelmed with emails from
-        <i>{{ appTitle }}</i>
+        <i>my-legacy</i>
       </div>
       You have full control over the frequency of emails sent to you. You can
       change the service settings in the
@@ -165,17 +160,17 @@
       The source code of the client application is publicly available
       <a href="https://github.com/loanMaster/inheritwebapp">here</a>. You can
       verify that neither your archive's encryption password nor any unencrypted
-      data is stored or uploaded to the <i>{{ appTitle }}</i> server.
+      data is stored or uploaded to the <i>my-legacy</i> server.
 
       <div class="bulletpoint">
         🌎 Why are the encrypted files stored in the interplanetary file system?
       </div>
       The <a href="https://ipfs.io/">interplanetary file system</a> is a
-      decentralized storage. In case of a database crash of {{ appTitle }} the
-      files will still be available. You can access and decrypt the files if you
-      know the file location, the initialization vector used for encryption and
-      the encryption password. The file location and initialization vector are
-      shown in the dashboard.
+      decentralized storage. In case of a database crash of my-legacy the files
+      will still be available. You can access and decrypt the files if you know
+      the file location, the initialization vector used for encryption and the
+      encryption password. The file location and initialization vector are shown
+      in the dashboard.
 
       <div class="bulletpoint">💰 Pricing</div>
       Using this service is free.
@@ -216,12 +211,12 @@
       />
 
       <div class="bulletpoint">😇 Liability</div>
-      <i>{{ appTitle }}</i> is not liable for any data leak as consequence of
-      using <i>{{ appTitle }}</i
-      >. Make sure to use secure passwords and only share them with your heirs.
+      <i>my-legacy</i> is not liable for any data leak as consequence of using
+      <i>my-legacy</i>. Make sure to use secure passwords and only share them
+      with your heirs.
 
       <div class="bulletpoint">✉ Contact</div>
-      <span>support@{{ appTitle }}.rocks</span>
+      <span>support@my-legacy.rocks</span>
     </div>
   </div>
 </template>
@@ -230,11 +225,6 @@
 import CryptoAddress from "@/components/CryptoAddress.vue";
 
 export default {
-  computed: {
-    appTitle() {
-      return window.appTitle;
-    },
-  },
   components: {
     CryptoAddress,
   },

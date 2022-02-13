@@ -5,7 +5,7 @@
     </div>
     <div class="my-flex-2">
       <div class="my-center xl-font">
-        Inherit your data with <br /><i class="xxl-font">{{ appTitle }}</i>
+        Inherit your data with <br /><i class="xxl-font">my-legacy</i>
       </div>
       <div class="my-promo-documents my-fade-in mt-2">
         <img src="/images/bitcoin.png" style="max-width: 21%" />
@@ -31,8 +31,8 @@
         <div class="center">
           Your data is safely encrypted using the
           <a href="https://w3c.github.io/webcrypto/">Web Cryptography API</a>.
-          Only you know the password. <i>{{ appTitle }}</i> does not know or
-          store passwords anywhere.
+          Only you know the password. <i>my-legacy</i> does not know or store
+          passwords anywhere.
         </div>
         <div class="item-heading mt-4">Open source</div>
         <div class="center">
@@ -48,15 +48,15 @@
       <div class="center ml-2 pr-2">
         <div class="item-heading">Inherit any document</div>
         <div class="center">
-          With <i>{{ appTitle }}</i> you can inherit PDFs, simple text files or
-          any other document to your heirs. It is suitable to inherit crypto
+          With <i>my-legacy</i> you can inherit PDFs, simple text files or any
+          other document to your heirs. It is suitable to inherit crypto
           wallets, too.
         </div>
         <div class="item-heading mt-4">Automated</div>
         <div class="center">
-          <i>{{ appTitle }}</i> implements a dead man's switch. If you die, it
-          will send the documents you prepared to your heirs. No additional
-          human interaction is required.
+          <i>my-legacy</i> implements a dead man's switch. If you die, it will
+          send the documents you prepared to your heirs. No additional human
+          interaction is required.
         </div>
         <div class="item-heading mt-4">You are in control</div>
         <div class="center">
@@ -86,17 +86,17 @@
       <div class="center ml-2 pr-2">
         <div class="item-heading">Easy to use</div>
         <div class="center">
-          Using <i>{{ appTitle }}</i> is easy. Just sign up and create archives
-          for your heirs.
+          Using <i>my-legacy</i> is easy. Just sign up and create archives for
+          your heirs.
         </div>
         <div class="item-heading mt-4">From Switzerland</div>
         <div class="center">
-          <i>{{ appTitle }}</i> profits from this political and economic
-          stability in Switzerland, which is a safe haven in times of unrest.
+          <i>my-legacy</i> profits from this political and economic stability in
+          Switzerland, which is a safe haven in times of unrest.
         </div>
         <div class="item-heading mt-4">For free</div>
         <div class="center">
-          <i>{{ appTitle }}</i> does not charge users for the service.
+          <i>my-legacy</i> does not charge users for the service.
         </div>
       </div>
     </div>
@@ -107,8 +107,8 @@
       <div class="center ml-2 pr-2">
         <div class="item-heading">Anonymous</div>
         <div class="center">
-          You remain anonymous. <i>{{ appTitle }}</i> does not know your name or
-          any other personal data except your email address.
+          You remain anonymous. <i>my-legacy</i> does not know your name or any
+          other personal data except your email address.
         </div>
       </div>
       <img src="images/anonymous2.jpg" class="my-border-box" />
@@ -131,20 +131,10 @@
       We aim to get back to all inquiries within 24 hours. The more information
       you can provide us with, the better and easier we can draft an offer and
       get back to you.
-      <div class="contact-email">support@{{ appTitle }}.rocks</div>
+      <div class="contact-email">support@my-legacy.rocks</div>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  computed: {
-    appTitle() {
-      return window.appTitle;
-    },
-  },
-};
-</script>
 
 <style scoped>
 .my-gray-desktop-only {
