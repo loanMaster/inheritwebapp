@@ -38,11 +38,11 @@ export class MockBackend {
 
   private async initIpfsMocks(page: Page) {
     await page.route(
-      `https://ipfs.infura.io:5001/api/v0/cat?arg=*`,
+      `https://gateway.pinata.cloud/ipfs/*`,
       (route, request) => {
         for (let idx = 0; idx < this.ipfsMocks.length; idx++) {
           const ipsfFileMock = this.ipfsMocks[idx];
-          if (request.url().endsWith(`arg=${ipsfFileMock.hash}`)) {
+          if (request.url().endsWith(ipsfFileMock.hash)) {
             route.fulfill({
               status: 200,
               body: fs.readFileSync(ipsfFileMock.file),

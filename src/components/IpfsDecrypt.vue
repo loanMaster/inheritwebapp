@@ -81,7 +81,7 @@ export default {
       this.loadingData = true;
       try {
         const response = await fetch(
-          `https://ipfs.infura.io:5001/api/v0/cat?arg=${this.hashModel}`
+          `https://gateway.pinata.cloud/ipfs/${this.hashModel}`
         );
         if (!response.ok) {
           this.errormsg =

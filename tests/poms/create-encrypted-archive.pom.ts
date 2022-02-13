@@ -12,8 +12,11 @@ export class CreateEncryptedArchivePom {
       __dirname + "/../assets/upload-file.txt"
     );
     await this.page.fill('[test="archive-name-input"]', "my-test-archive");
-    await this.page.fill('[test="password-input"]', "tops1cret");
-    await this.page.fill('[test="password-verify-input"]', "tops1cret");
+    await this.page.fill('[test="password-input"]', "tops1cretlongpassword");
+    await this.page.fill(
+      '[test="password-verify-input"]',
+      "tops1cretlongpassword"
+    );
     await this.page.click('[test="create-archive-submit"]');
   }
 

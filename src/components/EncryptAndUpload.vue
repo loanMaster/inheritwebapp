@@ -110,7 +110,9 @@
     </div>
   </form>
   <div>
-    <span v-if="errormsg" class="invalid-feedback">{{ errormsg }}</span>
+    <span v-if="errormsg" class="display-block invalid-feedback">{{
+      errormsg
+    }}</span>
   </div>
 </template>
 
@@ -171,7 +173,6 @@ export default defineComponent({
           iv,
         });
       } catch (error) {
-        console.log(error);
         this.errormsg = "An error occurred while uploading / encrypting";
       } finally {
         this.savingData = false;
