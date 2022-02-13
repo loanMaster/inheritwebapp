@@ -1,0 +1,175 @@
+.app {
+    margin-top: 80px;
+    padding-bottom: 20px;
+}
+
+.my-navbar-light {
+    background-color: #ffffff;
+    box-shadow: 0 14px 80px rgba(34, 35, 58, 0.2);
+}
+
+.my-inner-block {
+    width: 450px;
+    margin: 20px auto auto;
+    background: #ffffff;
+    box-shadow: 0 14px 80px rgba(34, 35, 58, 0.2);
+    padding: 40px 55px 60px 55px;
+    border-radius: 15px;
+    transition: all .3s;
+}
+
+@media screen and (max-width: 992px) {
+    .my-inner-block {
+        width: 90%;
+    }
+}
+
+.my-inner-block-wide {
+    width: 60%;
+    margin: auto;
+    background: #ffffff;
+    padding: 0 15px;
+    transition: all .3s;
+}
+
+@media screen and (max-width: 992px) {
+    .my-inner-block-wide {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .navbar-brand {
+        font-size: 1rem;
+        margin-right: 0;
+    }
+    .btn.btn-outline-primary {
+        font-size: 1rem;
+    }
+}
+
+label {
+    font-weight: 500;
+}
+
+.ml-2 {
+    margin-left: 6px;
+}
+
+.mr-2 {
+    margin-right: 6px;
+}
+
+.pb-8 {
+    padding-bottom: 24px;
+}
+
+.pt-8 {
+    padding-top: 24px;
+}
+
+.display-block {
+    display:block!important;
+}
+
+.my-border-box {
+    box-shadow: 0 2px 8px 0 #d3d3d3;
+    padding: 1rem;
+}
+
+@keyframes myFadeOut {
+    0% {opacity: 1;}
+    50% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+.fadeOut {
+    animation-duration: 4s;
+    animation-name: myFadeOut;
+    animation-fill-mode: forwards;
+}
+
+@keyframes myFadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+.my-fade-in {
+    animation-duration: 3s;
+    animation-name: myFadeIn;
+    animation-fill-mode: forwards;
+}
+
+.my-justify {
+    text-align: justify;
+}
+
+.my-float-right {
+    float:right
+}
+
+.my-normal-font {
+    font-size: 1rem;
+}
+
+.my-small-font {
+    font-size: 0.5rem;
+}
+
+.my-bold {
+    font-weight: 700;
+}
+
+.my-flex {
+    display: flex;
+}
+
+.my-flex-1 {
+    flex: 1
+}
+
+.my-flex-2 {
+    flex: 2
+}
+
+.my-flex-align-center {
+    display: flex;
+    align-items: center;
+}
+
+.my-word-break-all {
+    word-break: break-all;
+}
+
+.my-center {
+    text-align: center;
+}
+
+.my-center-content {
+    margin:auto;
+    width: 100%;
+    text-align:center
+}
+
+.router-link-active {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 992px) {
+    .my-mobile-hidden {
+        display: none!important;
+    }
+}
+
+.my-msg-anchor {
+    position: relative;
+}
+
+.my-msg-anchor .invalid-feedback {
+    position: absolute;
+    padding-top: 0.25rem;
+    margin-top: 0;
+}
+div.invalid-feedback {
+    display: block;
+}
