@@ -4,6 +4,7 @@ import { MockBackend, TEST_FILE } from "./mocks/mock.backend";
 import { ManageArchivesPom } from "./poms/manage-archives.pom";
 import { DownloadAndDecryptPom } from "./poms/download-and-decrypt.pom";
 import fs from "fs";
+import { EditArchivePom } from "./poms/edit-archive.pom";
 
 test.describe("manage-archives", async () => {
   let pom: ManageArchivesPom;
@@ -59,13 +60,21 @@ test.describe("manage-archives", async () => {
     await pom.navigateTo();
     await pom.verifyArchiveName(mockArchive.archiveName);
     expect(await pom.getArchiveCount()).toBe(1);
-    await pom.fillArchiveName("my-new-name");
-    await pom.addHeir();
-    await pom.fillHeir("my-heir@example.com");
-    await pom.addHeir();
-    await pom.fillHeir("my-second-heir@example.com", 1);
-    await pom.submit();
-    await pom.verifySaveSuccessMsg();
+
+    await pom.showEditArchiveModal();
+
+    const editArchivePom = new EditArchivePom(page);
+
+    await editArchivePom.fillArchiveName("my-new-name");
+    await editArchivePom.addHeir();
+    await editArchivePom.fillHeir("my-heir@example.com");
+    await editArchivePom.addHeir();
+    await editArchivePom.fillHeir("my-second-heir@example.com", 1);
+    await editArchivePom.submit();
+    await editArchivePom.verifySaveSuccessMsg();
+
+    await pom.closeEditArchiveModal();
+
     expect(await pom.getArchiveCount()).toBe(1);
     await page.reload();
     await pom.verifyArchiveName("my-new-name");
@@ -73,11 +82,14 @@ test.describe("manage-archives", async () => {
     await pom.verifyHeirEmail("my-second-heir@example.com", 1);
     await expect(await pom.getHeirCount()).toBe(2);
 
-    await pom.removeHeir(0, 0);
-    await pom.submit();
-    await pom.verifySaveSuccessMsg();
-    await page.reload();
-    await pom.verifyHeirEmail("my-second-heir@example.com", 0);
+    await pom.showEditArchiveModal();
+    await editArchivePom.removeHeir(1);
+    await editArchivePom.submit();
+    await editArchivePom.verifySaveSuccessMsg();
+
+    await pom.closeEditArchiveModal();
+
+    await pom.verifyHeirEmail("my-heir@example.com");
     await expect(await pom.getHeirCount()).toBe(1);
   });
 
@@ -87,11 +99,10 @@ test.describe("manage-archives", async () => {
     await pom.openDownloadAndDecryptModal();
     const modalPom = new DownloadAndDecryptPom(page);
     await modalPom.enterPassword(TEST_FILE.password);
-    await modalPom.submit();
 
     const [download] = await Promise.all([
       page.waitForEvent("download"),
-      pom.submit(),
+      modalPom.submit(),
     ]);
     const path = await download.path();
     expect(fs.readFileSync(path as string, "utf-8")).toEqual(

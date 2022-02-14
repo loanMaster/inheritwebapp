@@ -10,18 +10,18 @@
     You have not created any archives yet
   </div>
   <div v-if="settings">
-    <EditArchive
+    <ArchiveListItem
       v-for="archive in settings.archives"
       :key="archive.id"
       :archive-id="archive.id"
-      @archive-updated="onArchiveUpdated"
+      @archive-deleted="onArchiveDeleted"
     />
   </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import EditArchive from "@/components/EditArchive.vue";
+import ArchiveListItem from "@/components/ArchiveListItem.vue";
 
 export default defineComponent({
   name: "ManageArchives",
@@ -33,7 +33,7 @@ export default defineComponent({
     };
   },
   components: {
-    EditArchive,
+    ArchiveListItem,
   },
   created() {
     this.fetchSettings();
@@ -48,7 +48,7 @@ export default defineComponent({
         console.log(error);
       }
     },
-    async onArchiveUpdated() {
+    async onArchiveDeleted() {
       this.settings = await this.settingsService.fetchSettings();
     },
   },

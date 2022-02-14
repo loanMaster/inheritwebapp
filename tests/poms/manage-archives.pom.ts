@@ -16,7 +16,7 @@ export class ManageArchivesPom {
   async getHeirCount(archiveIndex = 0) {
     const locator = this.page
       .locator(`[test="edit-archive"] >> nth=${archiveIndex}`)
-      .locator('[test="remove-heir"]');
+      .locator('[test="heir-email"]');
     return locator.count();
   }
 
@@ -25,6 +25,10 @@ export class ManageArchivesPom {
     const locator = this.page.locator(`[test="confirm-delete-modal"] >> nth=0`);
     await expect(await locator.isVisible()).toBeTruthy();
     await this.page.click(`[test="modal-confirm"]`);
+  }
+
+  async closeEditArchiveModal() {
+    await this.page.click('[test="edit-archive-modal"] [test="modal-cancel"]');
   }
 
   async verifyDownloadAndDecryptDialogShown(value: boolean) {
@@ -50,18 +54,8 @@ export class ManageArchivesPom {
     await this.page.click(`[test="modal-cancel"]`);
   }
 
-  async submit(index = 0) {
-    await this.page.click(`[test="submit"] >> nth=${index}`);
-  }
-
   async openDownloadAndDecryptModal(index = 0) {
-    await this.page.click(
-      `[test="downoad-and-decrypt-submit"] >> nth=${index}`
-    );
-  }
-
-  async addHeir(index = 0) {
-    await this.page.click(`[test="add-heir"] >> nth=${index}`);
+    await this.page.click(`[test="show-download-dialog"] >> nth=${index}`);
   }
 
   async verifyEmptyListVisibility(value: boolean, index = 0) {
@@ -81,36 +75,18 @@ export class ManageArchivesPom {
   async verifyArchiveName(value: string, index = 0) {
     await expect(
       this.page.locator(`[test="archive-name"] >> nth=${index}`)
-    ).toHaveValue(value);
+    ).toContainText(value);
   }
 
   async verifyHeirEmail(value: string, heirIndex = 0, archiveIndex = 0) {
     const locator = this.page
       .locator(`[test="edit-archive"] >> nth=${archiveIndex}`)
       .locator(`[test="heir-email"] >> nth=${heirIndex}`);
-    expect(await locator.inputValue()).toBe(value);
+    expect(await locator.textContent()).toBe(value);
   }
 
-  async verifySaveSuccessMsg() {
-    await expect(this.page.locator('[test="success-msg"]')).toBeVisible();
-  }
-
-  async fillArchiveName(value: string, index = 0) {
-    this.page.fill(`[test="archive-name"] >> nth=${index}`, value);
-  }
-
-  async fillHeir(value: string, heirIndex = 0, archiveIndex = 0) {
-    const locator = this.page
-      .locator(`[test="edit-archive"] >> nth=${archiveIndex}`)
-      .locator(`[test="heir-email"] >> nth=${heirIndex}`);
-    await locator.fill(value);
-  }
-
-  async removeHeir(heirIndex = 0, archiveIndex = 0) {
-    const locator = this.page
-      .locator(`[test="edit-archive"] >> nth=${archiveIndex}`)
-      .locator(`[test="remove-heir"] >> nth=${heirIndex}`);
-    await locator.click();
+  async showEditArchiveModal(index = 0) {
+    this.page.click(`[test="show-edit-modal"] >> nth=${index}`);
   }
 
   async verifyIpfsHash(value: string, index = 0) {
