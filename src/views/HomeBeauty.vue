@@ -30,8 +30,9 @@
         <div class="item-heading">Trustless & Secure</div>
         <div class="center">
           Your data is safely encrypted using the
-          <a href="https://w3c.github.io/webcrypto/">Web Cryptography API</a>.
-          Only you know the password. <i>my-legacy</i> does not know or store
+          <a href="https://en.wikipedia.org/wiki/Web_Cryptography_API/"
+            >Web Cryptography API</a
+          >. Only you know the password. <i>my-legacy</i> does not know or store
           passwords anywhere.
         </div>
         <div class="item-heading mt-4">Open source</div>

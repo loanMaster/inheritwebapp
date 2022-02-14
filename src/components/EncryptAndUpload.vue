@@ -3,8 +3,10 @@
     <div class="my-justify">
       Create an encrypted archive. Your files will by zipped and encrypted with
       the
-      <a href="https://w3c.github.io/webcrypto/">Web Cryptography API</a> using
-      the
+      <a href="https://en.wikipedia.org/wiki/Web_Cryptography_API/"
+        >Web Cryptography API</a
+      >
+      using the
       <a
         href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/encrypt#aes-gcmin"
         >AES-GCM algorithm</a

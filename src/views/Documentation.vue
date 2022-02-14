@@ -23,8 +23,10 @@
       my-legacy addresses these issues providing a dead man's switch. The user
       can select files which are then zipped and encrypted using the
       state-of-the-art
-      <a href="https://w3c.github.io/webcrypto/">Web Cryptography API</a> in the
-      browser. The encrypted archive is stored in the
+      <a href="https://en.wikipedia.org/wiki/Web_Cryptography_API/"
+        >Web Cryptography API</a
+      >
+      in the browser. The encrypted archive is stored in the
       <a href="https://ipfs.io/">interplanetary file system</a>.
       <br />
       Once the dead man's switch is triggered the user's heirs will receive a
@@ -37,8 +39,9 @@
       First you register as a new user, then:<br />
       1. You select one or more files. The files are zipped and encrypted in the
       browser using the
-      <a href="https://w3c.github.io/webcrypto/">Web Cryptography API</a>. The
-      password and your unencrypted data are never sent to the server.<br />
+      <a href="https://en.wikipedia.org/wiki/Web_Cryptography_API/"
+        >Web Cryptography API</a
+      >. The password and your unencrypted data are never sent to the server.<br />
       2. The encrypted archive is uploaded and stored in the
       <a href="https://ipfs.io/">interplanetary file system</a>. You assign
       heirs to your archive.<br />
@@ -151,7 +154,7 @@
         😱 How can I be sure that an attacker can not decrypt my files?
       </div>
       The standard
-      <a href="https://w3c.github.io/webcrypto/"
+      <a href="https://en.wikipedia.org/wiki/Web_Cryptography_API/"
         >Web Cryptography application programming interface</a
       >
       with AES-GCM algorithm is used to encrypt your files in the browser. If
