@@ -82,14 +82,9 @@ const routes = [
     component: () => import("../views/Reset.vue"),
   },
   {
-    path: "/decrypt",
-    name: "decrypt",
-    component: () => import("../views/Decrypt.vue"),
-  },
-  {
-    path: "/trigger-health-check",
-    name: "trigger-health-check",
-    component: () => import("../views/TriggerHealthCheck.vue"),
+    path: "/health-check-and-decrypt",
+    name: "health-check-and-decrypt",
+    component: () => import("../views/AccessArchive.vue"),
   },
 ];
 

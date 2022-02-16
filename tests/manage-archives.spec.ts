@@ -14,7 +14,7 @@ test.describe("manage-archives", async () => {
     archiveName: "my-awesome-archive",
     ipfsHash: TEST_FILE.hash,
     iv: TEST_FILE.iv,
-    recipients: [],
+    accessCode: "dummy-access-code",
     id: "1",
     creationDate: Date.now(),
     size: 999,
@@ -49,6 +49,7 @@ test.describe("manage-archives", async () => {
     expect(await pom.getArchiveCount()).toBe(1);
     await pom.verifyEmptyListVisibility(false);
     await pom.verifyIv(mockArchive.iv);
+    await pom.verifyAccessCode(mockArchive.accessCode);
     await pom.verifyIpfsHash(mockArchive.ipfsHash);
     await pom.verifyIpfsLink(`https://ipfs.io/ipfs/${mockArchive.ipfsHash}`);
     await pom.verifySize(`${mockArchive.size} Bytes`);
@@ -66,10 +67,6 @@ test.describe("manage-archives", async () => {
     const editArchivePom = new EditArchivePom(page);
 
     await editArchivePom.fillArchiveName("my-new-name");
-    await editArchivePom.addHeir();
-    await editArchivePom.fillHeir("my-heir@example.com");
-    await editArchivePom.addHeir();
-    await editArchivePom.fillHeir("my-second-heir@example.com", 1);
     await editArchivePom.submit();
     await editArchivePom.verifySaveSuccessMsg();
 
@@ -78,19 +75,6 @@ test.describe("manage-archives", async () => {
     expect(await pom.getArchiveCount()).toBe(1);
     await page.reload();
     await pom.verifyArchiveName("my-new-name");
-    await pom.verifyHeirEmail("my-heir@example.com");
-    await pom.verifyHeirEmail("my-second-heir@example.com", 1);
-    await expect(await pom.getHeirCount()).toBe(2);
-
-    await pom.showEditArchiveModal();
-    await editArchivePom.removeHeir(1);
-    await editArchivePom.submit();
-    await editArchivePom.verifySaveSuccessMsg();
-
-    await pom.closeEditArchiveModal();
-
-    await pom.verifyHeirEmail("my-heir@example.com");
-    await expect(await pom.getHeirCount()).toBe(1);
   });
 
   test("download-and-decrypt-archive", async ({ page }) => {
@@ -116,19 +100,19 @@ test.describe("manage-archives", async () => {
       archiveName: "my-awesome-archive1",
       ipfsHash: "123",
       iv: "bla",
-      recipients: [],
       id: "1",
       creationDate: Date.now(),
       size: 999,
+      accessCode: "",
     };
     const mockArchive2 = {
       archiveName: "my-awesome-archive2",
       ipfsHash: "321",
       iv: "foo",
-      recipients: [],
       id: "2",
       creationDate: Date.now(),
       size: 123,
+      accessCode: "",
     };
 
     test.beforeEach(() => {

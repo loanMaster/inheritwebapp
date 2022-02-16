@@ -2,24 +2,42 @@ import { expect, test } from "@playwright/test";
 import * as fs from "fs";
 import { MockBackend, TEST_FILE } from "./mocks/mock.backend";
 import { DownloadAndDecryptPom } from "./poms/download-and-decrypt.pom";
+import { AccessArchivePom } from "./poms/access-archive.pom";
 
-test.describe("download and decrypt", async () => {
+test.describe("download-and-decrypt", async () => {
   let pom: DownloadAndDecryptPom;
+  let accessArchivePom: AccessArchivePom;
+  let mockBackend = new MockBackend();
 
   test.beforeEach(async ({ page }) => {
+    accessArchivePom = new AccessArchivePom(page);
     pom = new DownloadAndDecryptPom(page);
-    const mockBackend = new MockBackend();
+    mockBackend = new MockBackend();
+    mockBackend.settingsMock.dead = true;
+    mockBackend.settingsMock.archives = [
+      {
+        iv: TEST_FILE.iv,
+        ipfsHash: TEST_FILE.hash,
+        accessCode: "123-test",
+        id: "",
+        size: 0,
+        creationDate: 0,
+      },
+    ];
     await mockBackend.initMocks(page);
   });
 
+  const enterAccessCode = async () => {
+    await accessArchivePom.navigateTo();
+    await accessArchivePom.enterCode(
+      mockBackend.settingsMock.archives[0].accessCode
+    );
+    await accessArchivePom.submitCode();
+  };
+
   test("decryptFile", async ({ page }) => {
-    const { hash, iv, pass } = {
-      pass: TEST_FILE.password,
-      iv: TEST_FILE.iv,
-      hash: TEST_FILE.hash,
-    };
-    await pom.navigateToDecryptPage(iv, hash);
-    await pom.enterPassword(pass);
+    await enterAccessCode();
+    await pom.enterPassword(TEST_FILE.password);
 
     const [download] = await Promise.all([
       page.waitForEvent("download"),
@@ -33,47 +51,12 @@ test.describe("download and decrypt", async () => {
   });
 
   test("decryptFile_wrong_pass", async () => {
-    const { hash, iv, pass } = {
-      pass: "bad_password",
-      iv: TEST_FILE.iv,
-      hash: TEST_FILE.hash,
-    };
-    await pom.navigateToDecryptPage(iv, hash);
-    await pom.enterPassword(pass);
+    await enterAccessCode();
+    await pom.enterPassword("bad password");
     await pom.submit();
 
     await pom.verifyError(
       "There was an error decrypting your file. Please check your password and iv"
-    );
-  });
-
-  test("decryptFile_wrong_iv", async () => {
-    const { hash, iv, pass } = {
-      pass: TEST_FILE.password,
-      iv: "111dbf92-235a-47fd-b64b-55da65950369",
-      hash: TEST_FILE.hash,
-    };
-    await pom.navigateToDecryptPage(iv, hash);
-    await pom.enterPassword(pass);
-    await pom.submit();
-
-    await pom.verifyError(
-      "There was an error decrypting your file. Please check your password and iv"
-    );
-  });
-
-  test("decryptFile_wrong_hash", async () => {
-    const { hash, iv, pass } = {
-      pass: TEST_FILE.password,
-      iv: TEST_FILE.iv,
-      hash: "INVALIDHASH",
-    };
-    await pom.navigateToDecryptPage(iv, hash);
-    await pom.enterPassword(pass);
-    await pom.submit();
-
-    await pom.verifyError(
-      "The archive could not be downloaded. Please verify the ipfs hash"
     );
   });
 });

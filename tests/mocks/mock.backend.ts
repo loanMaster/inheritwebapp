@@ -12,15 +12,14 @@ export const TEST_FILE = {
 
 export class MockBackend {
   settingsMock: Settings = {
-    interval: 15,
+    email: "john.due@example.com",
     intervalReminder: 3,
     archives: [],
-    active: true,
     dueDate: Date.now(),
     triggerOnce: false,
     isReminder: false,
     contactAttempts: [],
-    healthCheckTriggerCode: "6607ba55-4729-448b-87f1-09f5f791b2aa",
+    dead: false,
   };
   ipfsMocks = [
     {
@@ -94,10 +93,23 @@ export class MockBackend {
     await page.route(
       `${process.env.WEBSITE_PATH}/api/settings/health-check-trigger/*`,
       (route, request) => {
-        if (request.url().endsWith(this.settingsMock.healthCheckTriggerCode)) {
+        const archives = this.settingsMock.archives.filter((a) =>
+          request.url().endsWith(a.accessCode)
+        );
+        if (archives.length > 0) {
+          const archive = archives[0];
+          const response = {
+            email: this.settingsMock.email,
+            alreadyTriggered: false,
+            intervalReminder: this.settingsMock.intervalReminder,
+            contactAttempts: this.settingsMock.contactAttempts,
+            dueDate: this.settingsMock.dueDate,
+            dead: this.settingsMock.dead,
+            archive,
+          };
           route.fulfill({
             status: 200,
-            body: JSON.stringify({ email: "john.doe@gmail.com" }),
+            body: JSON.stringify(response),
             headers: { "access-control-allow-origin": "*" },
             contentType: "application/json",
           });
@@ -122,10 +134,10 @@ export class MockBackend {
             const mockArchive: Archive = {
               iv: "1",
               ipfsHash: "2",
-              recipients: [],
               id: uuidv4(),
               creationDate: Date.now(),
               size: 123,
+              accessCode: uuidv4(),
             };
             this.settingsMock.archives.push(mockArchive);
             route.fulfill({
@@ -143,7 +155,6 @@ export class MockBackend {
             const archive = this.settingsMock.archives.find(
               (archive: Archive) => archive.id === update.archive.id
             ) as Archive;
-            archive.recipients = update.archive.recipients;
             archive.archiveName = update.archive.archiveName;
             route.fulfill({
               status: 200,

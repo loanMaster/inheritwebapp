@@ -33,13 +33,10 @@
               >
             </li>
             <li class="nav-item">
-              <router-link class="nav-link active" to="/decrypt"
-                >Access an encrypted archive</router-link
-              >
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link active" to="/trigger-health-check"
-                >Trigger a health check</router-link
+              <router-link
+                class="nav-link active"
+                to="/health-check-and-decrypt"
+                >Trigger a health check / Access archive</router-link
               >
             </li>
           </ul>

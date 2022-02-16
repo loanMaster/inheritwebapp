@@ -9,16 +9,6 @@ export class ServiceSettingsPom {
     );
   }
 
-  async verifyInterval(value: number) {
-    await expect(this.page.locator("[test='interval-input']")).toHaveValue(
-      String(value)
-    );
-  }
-
-  async setInterval(value: number) {
-    await this.page.fill("[test='interval-input']", String(value));
-  }
-
   async setIntervalReminder(value: number) {
     await this.page.fill("[test='interval-reminder-input']", String(value));
   }
@@ -29,16 +19,8 @@ export class ServiceSettingsPom {
     ).toHaveValue(String(value));
   }
 
-  async verifyHealthCheckActive(value: string) {
-    await expect(
-      this.page.locator("[test='periodic-checks-toggle']")
-    ).toHaveValue(value);
-  }
-
-  async verifyHealthCheckTriggerCode(value: string) {
-    await expect(
-      this.page.locator("[test='health-check-trigger-code']")
-    ).toContainText(value);
+  async verifyAlive(value: string) {
+    await expect(this.page.locator("[test='alive-toggle']")).toHaveValue(value);
   }
 
   async submit() {

@@ -13,13 +13,6 @@ export class ManageArchivesPom {
     return this.page.locator('[test="edit-archive"]').count();
   }
 
-  async getHeirCount(archiveIndex = 0) {
-    const locator = this.page
-      .locator(`[test="edit-archive"] >> nth=${archiveIndex}`)
-      .locator('[test="heir-email"]');
-    return locator.count();
-  }
-
   async deleteArchiveConfirm(index = 0) {
     await this.page.click(`[test="delete-archive-btn"] >> nth=${index}`);
     const locator = this.page.locator(`[test="confirm-delete-modal"] >> nth=0`);
@@ -72,17 +65,16 @@ export class ManageArchivesPom {
     ).toContainText(value);
   }
 
+  async verifyAccessCode(value: string, index = 0) {
+    await expect(
+      this.page.locator(`[test="access-code"] >> nth=${index}`)
+    ).toContainText(value);
+  }
+
   async verifyArchiveName(value: string, index = 0) {
     await expect(
       this.page.locator(`[test="archive-name"] >> nth=${index}`)
     ).toContainText(value);
-  }
-
-  async verifyHeirEmail(value: string, heirIndex = 0, archiveIndex = 0) {
-    const locator = this.page
-      .locator(`[test="edit-archive"] >> nth=${archiveIndex}`)
-      .locator(`[test="heir-email"] >> nth=${heirIndex}`);
-    expect(await locator.textContent()).toBe(value);
   }
 
   async showEditArchiveModal(index = 0) {

@@ -97,9 +97,10 @@ export default {
         FileSaver.saveAs(decryptedBlob, `${this.hashModel}.zip`);
         this.$emit("decryption-complete");
       } catch (error) {
-        console.error(error);
         this.errormsg =
-          "There was an error decrypting your file. Please check your password and iv";
+          error.message && error.message === "Failed to fetch"
+            ? "The archive could not be downloaded. Please verify the ipfs hash"
+            : "There was an error decrypting your file. Please check your password and iv";
       } finally {
         this.loadingData = false;
       }

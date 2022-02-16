@@ -4,3 +4,4 @@ playwright-report/
 dist/
 .github/
 .idea/
+dist.zip

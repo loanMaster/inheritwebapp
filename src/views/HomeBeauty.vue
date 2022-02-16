@@ -30,7 +30,7 @@
         <div class="item-heading">Trustless & Secure</div>
         <div class="center">
           Your data is safely encrypted using the
-          <a href="https://en.wikipedia.org/wiki/Web_Cryptography_API/"
+          <a href="https://en.wikipedia.org/wiki/Web_Cryptography_API"
             >Web Cryptography API</a
           >. Only you know the password. <i>my-legacy</i> does not know or store
           passwords anywhere.
@@ -55,13 +55,14 @@
         </div>
         <div class="item-heading mt-4">Automated</div>
         <div class="center">
-          <i>my-legacy</i> implements a dead man's switch. If you die, it will
-          send the documents you prepared to your heirs. No additional human
-          interaction is required.
+          <i>my-legacy</i> implements a dead man's switch. If you die, your
+          heirs can trigger a <i>health check</i>. If you do not confirm the
+          reception of the health check, your heirs can access the documents
+          your prepared for them.
         </div>
         <div class="item-heading mt-4">You are in control</div>
         <div class="center">
-          You can adjust the service settings or pause the service at any time.
+          You can adjust the service settings at any time.
         </div>
       </div>
       <img src="promo/dude_promo.jpg" class="my-mobile-hidden" />

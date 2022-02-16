@@ -13,40 +13,6 @@
             v-model="archive.archiveName"
           />
         </div>
-
-        <label class="form-label mt-2">Heirs</label>
-        <div v-for="(recipient, index) in archive.recipients" :key="recipient">
-          <div class="input-group mb-3">
-            <input
-              type="email"
-              class="my-normal-font form-control form-control-lg"
-              placeholder="Heir email address"
-              test="heir-email-input"
-              :disabled="savingData"
-              v-model="recipient.email"
-              required
-            />
-            <button
-              type="button"
-              class="btn btn-outline-danger"
-              @click="removeRecipient(index)"
-            >
-              <i class="bi-trash" test="remove-heir"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="mt-2">
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="addRecipient"
-            :disabled="savingData"
-            test="add-heir"
-          >
-            <i class="bi-plus"></i> Add heir
-          </button>
-        </div>
         <div class="my-flex-align-center mb-2 mt-2">
           <button
             type="submit"
@@ -108,12 +74,6 @@ export default defineComponent({
         this.errormsg = error;
       }
       this.savingData = false;
-    },
-    removeRecipient(recipientIndex) {
-      this.archive.recipients.splice(recipientIndex, 1);
-    },
-    addRecipient() {
-      this.archive.recipients.push({ email: "" });
     },
   },
 });

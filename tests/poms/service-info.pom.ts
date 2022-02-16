@@ -8,7 +8,7 @@ export class ServiceInfoPom {
   }
 
   async getInfoText() {
-    return this.page.locator('[test="service-info-text"]').innerText();
+    return this.page.locator('[text="service-info-text"]').innerText();
   }
 
   async verifyHealthCheckManuallyTriggeredVisible() {
@@ -17,9 +17,15 @@ export class ServiceInfoPom {
     ).toBeVisible();
   }
 
-  async verifySendMessagesWarningsVisible() {
-    await expect(
-      await this.page.locator('[test="messages-will-be-sent-warning"]')
+  async verifyNoHealthCheckTriggeredTextVisible() {
+    return await expect(
+      await this.page.locator('[test="no-heath-check-triggered"]')
     ).toBeVisible();
+  }
+
+  async getNoHealthCheckTriggeredText() {
+    return await this.page
+      .locator('[test="no-heath-check-triggered"]')
+      .textContent();
   }
 }

@@ -1,6 +1,7 @@
 import Userfront from "@userfront/core";
 import { Settings } from "@/entities/settings";
 import { Archive } from "@/entities/archive";
+import { AccessArchiveResponse } from "@/entities/access-archive.response";
 
 export class SettingsService {
   settings?: Settings;
@@ -75,16 +76,18 @@ export class SettingsService {
     return this.settingsCopy;
   }
 
-  async triggerHealthCheck(code: string): Promise<{ email: string }> {
+  async triggerHealthCheck(code: string): Promise<AccessArchiveResponse> {
     const response = await fetch(`/api/settings/health-check-trigger/${code}`, {
       ...this.getStandardRequestInit(),
       method: "PUT",
     });
     await this.handleError(response, "Error triggering health check.");
-    if (this.settings) {
-      this.settings.dueDate = Date.now();
+    const accessArchiveResponse: AccessArchiveResponse = await response.json();
+    if (this.settings && this.settings.email === accessArchiveResponse.email) {
+      this.settings.dueDate = accessArchiveResponse.dueDate as number;
+      this.settings.triggerOnce = accessArchiveResponse.triggerOnce as boolean;
     }
-    return response.json();
+    return accessArchiveResponse;
   }
 
   async uploadFile(

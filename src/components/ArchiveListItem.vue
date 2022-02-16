@@ -59,6 +59,15 @@
           >https://ipfs.io/ipfs/{{ archive.ipfsHash }}</a
         >
       </div>
+      <div class="my-bold mt-2">Access code</div>
+      <div class="my-normal-font" test="access-code">
+        <CopyText :address="archive.accessCode" />
+      </div>
+      <div>
+        ⚠ Share this code with your heirs. Your heirs can use the code to
+        trigger a <i>health check</i>
+        and access the archive after your death.
+      </div>
       <div class="archive-columns mt-2">
         <div
           class="my-flex-1 mr-2"
@@ -73,13 +82,10 @@
             <div type="text" class="my-normal-font" test="archive-name">
               {{ archive.archiveName }}
             </div>
-            <div class="my-bold mt-2">Heirs</div>
-            <div v-for="recipient in archive.recipients" :key="recipient">
-              <div class="my-normal-font" test="heir-email">
-                {{ recipient.email }}
-              </div>
-            </div>
-            <div v-if="archive.recipients.length === 0">- none -</div>
+            <div class="my-bold mt-2">Creation date</div>
+            <span test="creation-date">{{
+              formatDate(archive.creationDate || Date.now())
+            }}</span>
           </div>
 
           <div class="my-flex-align-center">
@@ -106,10 +112,6 @@
           <span test="ipfs-hash">{{ archive.ipfsHash }}</span>
           <div class="my-bold mt-2">Initialization vector (iv)</div>
           <span test="iv">{{ archive.iv }}</span>
-          <div class="my-bold mt-2">Creation date</div>
-          <span test="creation-date">{{
-            formatDate(archive.creationDate || Date.now())
-          }}</span>
           <div class="my-bold mt-2">Size</div>
           <span test="size">{{ formatBytes(archive.size || 0) }}</span>
         </div>
@@ -124,6 +126,7 @@ import IpfsDecrypt from "@/components/IpfsDecrypt.vue";
 import AppModal from "@/components/AppModal.vue";
 import EditArchive from "@/components/EditArchive.vue";
 import { formatBytes } from "@/util/format-bytes";
+import CopyText from "@/components/CopyText.vue";
 
 export default defineComponent({
   name: "ArchiveListItem",
@@ -146,6 +149,7 @@ export default defineComponent({
     IpfsDecrypt,
     AppModal,
     EditArchive,
+    CopyText,
   },
   async created() {
     const settings = await this.settingsService.fetchSettings();
@@ -171,12 +175,6 @@ export default defineComponent({
       const settings = await this.settingsService.fetchSettings();
       this.archive = settings.archives.find((m) => m.id === this.archiveId);
       this.showEditModal = false;
-    },
-    removeRecipient(recipientIndex) {
-      this.archive.recipients.splice(recipientIndex, 1);
-    },
-    addRecipient() {
-      this.archive.recipients.push({ email: "" });
     },
     formatDate(date) {
       const options = {

@@ -4,7 +4,6 @@ import { MockBackend } from "./mocks/mock.backend";
 import { ServiceSettingsPom } from "./poms/service-settings.pom";
 
 const settingUpdate = {
-  interval: 10,
   intervalReminder: 7,
 };
 
@@ -23,23 +22,18 @@ test.describe("service-settings", async () => {
     const settingsMock = mockBackend.settingsMock;
 
     await pom.navigateTo();
-    await pom.verifyInterval(settingsMock.interval);
     await pom.verifyIntervalReminder(settingsMock.intervalReminder);
-    await pom.verifyHealthCheckActive("on");
-
-    await pom.verifyHealthCheckTriggerCode(settingsMock.healthCheckTriggerCode);
+    await pom.verifyAlive("on");
   });
 
   test("update-settings", async ({ page }) => {
     await pom.navigateTo();
-    await pom.setInterval(settingUpdate.interval);
     await pom.setIntervalReminder(settingUpdate.intervalReminder);
 
     await pom.submit();
     await pom.verifySettingsUpdateSuccessful();
     await page.reload();
 
-    await pom.verifyInterval(settingUpdate.interval);
     await pom.verifyIntervalReminder(settingUpdate.intervalReminder);
   });
 });
