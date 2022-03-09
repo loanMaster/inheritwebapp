@@ -41,7 +41,7 @@
               >
             </li>
           </ul>
-          <div class="f-flex ml-2-s mb-2-s">
+          <div class="f-flex ml-2-s mb-2-s my-center-mobile-only">
             <router-link class="mr-2" to="/login" v-if="!loggedIn"
               >Sign in</router-link
             >
@@ -169,6 +169,9 @@ export default defineComponent({
 
   .my-beta {
     font-size: 0.75rem;
+  }
+  .my-center-mobile-only {
+    text-align: center;
   }
 }
 </style>

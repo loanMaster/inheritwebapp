@@ -4,7 +4,7 @@
   </div>
   <div test="history" v-if="history">
     <table class="table table-borderless">
-      <thead>
+      <thead class="my-mobile-hidden">
         <tr>
           <th scope="col">Date</th>
           <th scope="col">Event</th>
@@ -18,20 +18,33 @@
           :class="tableClass(historyEvent.name)"
           test="history-event-entry"
         >
-          <td test="history-event-date">
-            {{ formatDateTime(historyEvent.date) }}
+          <td>
+            <span class="my-desktop-hidden my-mobile-label">Date</span>
+            <span class="my-cell-value" test="history-event-date">{{
+              formatDateTime(historyEvent.date)
+            }}</span>
           </td>
-          <td test="history-event-name">{{ historyEvent.name }}</td>
-          <td test="history-event-additional">
-            <span v-if="historyEvent.previousFileId"
-              >{{ historyEvent.previousFileId }} ->
-            </span>
-            {{
-              historyEvent.email ||
-              historyEvent.fileId ||
-              historyEvent.accessCode ||
-              "-"
-            }}
+          <td>
+            <span class="my-desktop-hidden my-mobile-label">Event</span>
+            <span class="my-cell-value" test="history-event-name">{{
+              historyEvent.name
+            }}</span>
+          </td>
+          <td>
+            <span class="my-desktop-hidden my-mobile-label"
+              >Email / Archive Id / Access code</span
+            >
+            <div class="my-cell-value" test="history-event-additional">
+              <span v-if="historyEvent.previousFileId"
+                >{{ historyEvent.previousFileId }} ->
+              </span>
+              {{
+                historyEvent.email ||
+                historyEvent.fileId ||
+                historyEvent.accessCode ||
+                "-"
+              }}
+            </div>
           </td>
         </tr>
       </tbody>
@@ -107,21 +120,6 @@ td:last-of-type {
 
 @media only screen and (max-width: 760px),
   (min-device-width: 768px) and (max-device-width: 1024px) {
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
-
-  thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-
   tr {
     border: 1px solid #ccc;
   }
@@ -130,32 +128,21 @@ td:last-of-type {
     border: none;
     border-bottom: 1px solid #eee;
     position: relative;
-    padding-left: 50%;
+    display: flex;
   }
 
-  td:before {
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
+  .my-mobile-label {
+    flex: 1;
+    word-break: break-word;
+  }
+
+  .my-cell-value {
+    flex: 1;
+    word-break: break-all;
   }
 
   td:nth-of-type(1) {
     font-weight: 500;
-  }
-  td:nth-of-type(2) {
-    white-space: normal;
-  }
-  td:nth-of-type(1):before {
-    content: "Date";
-  }
-  td:nth-of-type(2):before {
-    content: "Event";
-  }
-  td:nth-of-type(3):before {
-    content: "Email / Archive id / Code";
   }
 }
 </style>
