@@ -1,5 +1,6 @@
 <template>
-  <div class="vue-template">
+  <div class="my-beta">⚠ beta version</div>
+  <div>
     <nav class="my-nav navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <a class="navbar-brand my-nav-bar">
@@ -105,26 +106,6 @@ export default defineComponent({
   transition: all 0.3s;
 }
 
-@media screen and (max-width: 992px) {
-  .my-navbar {
-    transition: all 0.3s;
-    max-height: 0;
-    overflow: hidden;
-  }
-
-  .my-navbar.my-expand {
-    max-height: 300px;
-  }
-
-  .ml-2-s {
-    margin-left: 0.5rem;
-  }
-
-  .mb-2-s {
-    margin-bottom: 0.5rem;
-  }
-}
-
 .my-nav {
   position: fixed;
   width: 100%;
@@ -152,5 +133,42 @@ export default defineComponent({
   border: 2px solid black;
   border-radius: 25px;
   text-decoration: none !important;
+}
+
+.my-beta {
+  font-weight: 700;
+  font-size: 1.5rem;
+  background-color: red;
+  position: fixed;
+  z-index: 10000;
+  bottom: 0;
+  right: 0;
+  opacity: 0.8;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media screen and (max-width: 992px) {
+  .my-navbar {
+    transition: all 0.3s;
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  .my-navbar.my-expand {
+    max-height: 300px;
+  }
+
+  .ml-2-s {
+    margin-left: 0.5rem;
+  }
+
+  .mb-2-s {
+    margin-bottom: 0.5rem;
+  }
+
+  .my-beta {
+    font-size: 0.75rem;
+  }
 }
 </style>

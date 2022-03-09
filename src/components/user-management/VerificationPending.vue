@@ -1,6 +1,6 @@
 <template>
   <div class="my-inner-block">
-    <div class="vue-template">
+    <div>
       <h3>Email verification pending</h3>
       Thank you for signing up. To activate your account click on the link in
       the verification email which was sent to {{ email }}.
