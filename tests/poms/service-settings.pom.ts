@@ -19,8 +19,26 @@ export class ServiceSettingsPom {
     ).toHaveValue(String(value));
   }
 
-  async verifyAlive(value: string) {
-    await expect(this.page.locator("[test='alive-toggle']")).toHaveValue(value);
+  async verifyAlive(value: boolean) {
+    await expect(await this.page.isChecked("[test='alive-toggle']")).toBe(
+      value
+    );
+  }
+
+  async verifyUseCloudStorageContainer(value: boolean) {
+    await expect(
+      await this.page.isChecked("[test='use-cloud-storage-container']")
+    ).toBe(value);
+  }
+
+  async verifyUseIpfsStorage(value: boolean) {
+    await expect(await this.page.isChecked("[test='use-ipfs-storage']")).toBe(
+      value
+    );
+  }
+
+  async useCloudStorageContainer() {
+    await this.page.check('[test="use-cloud-storage-container"]');
   }
 
   async submit() {
@@ -31,5 +49,9 @@ export class ServiceSettingsPom {
     await expect(
       this.page.locator("[test='settings-success-msg']")
     ).toContainText("Settings updated.");
+  }
+
+  async uncheckAliveCheckbox() {
+    await this.page.uncheck('[test="alive-toggle"]');
   }
 }

@@ -1,69 +1,37 @@
-import Userfront from "@userfront/core";
 import { Settings } from "@/entities/settings";
-import { Archive } from "@/entities/archive";
-import { AccessArchiveResponse } from "@/entities/access-archive.response";
+import { HealthCheckResponse } from "@/entities/health-check.response";
+import { CreateArchiveDto } from "@/entities/create.archive.dto";
+import { UpdateArchiveDto } from "@/entities/update.archive.dto";
+import { mapError } from "@/util/map.error";
 
 export class SettingsService {
-  settings?: Settings;
-
-  private get settingsCopy(): Settings {
-    return JSON.parse(JSON.stringify(this.settings));
-  }
-
   private getStandardRequestInit(): RequestInit {
     return {
       mode: "cors",
       cache: "no-cache",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + Userfront.tokens?.accessToken,
       },
     };
   }
 
-  private async handleError(
-    response: Response,
-    defaultErrorMsg = "An error occurred."
-  ) {
-    if (!response.ok) {
-      const error = await response.json();
-      throw Error("⚠ " + (error.error || defaultErrorMsg));
-    }
-  }
-
   async fetchSettings(): Promise<Settings> {
-    if (this.settings) {
-      return this.settingsCopy;
-    }
     const response = await fetch(`/api/settings`, {
       ...this.getStandardRequestInit(),
       method: "GET",
     });
-    await this.handleError(response, "Error fetching data.");
-    this.settings = await response.json();
-    return this.settingsCopy;
+    await mapError(response, "Error fetching data.");
+    return response.json();
   }
 
   async updateServiceSettings(settings: Partial<Settings>): Promise<Settings> {
     const response = await fetch(`/api/settings`, {
       ...this.getStandardRequestInit(),
       method: "PUT",
-      body: JSON.stringify({ settings, idToken: Userfront.tokens.idToken }),
+      body: JSON.stringify(settings),
     });
-    await this.handleError(response, "Error updating service settings.");
-    this.settings = await response.json();
-    return this.settingsCopy;
-  }
-
-  async updateArchive(archive: Partial<Archive>): Promise<Settings> {
-    const response = await fetch(`/api/archives`, {
-      ...this.getStandardRequestInit(),
-      method: "PUT",
-      body: JSON.stringify({ archive }),
-    });
-    await this.handleError(response, "Error updating archive.");
-    this.settings = await response.json();
-    return this.settingsCopy;
+    await mapError(response, "Error updating service settings.");
+    return response.json();
   }
 
   async deleteArchive(msgId: string): Promise<Settings> {
@@ -71,47 +39,56 @@ export class SettingsService {
       ...this.getStandardRequestInit(),
       method: "DELETE",
     });
-    await this.handleError(response, "Error deleting archive.");
-    this.settings = await response.json();
-    return this.settingsCopy;
+    await mapError(response, "Error deleting archive.");
+    return response.json();
   }
 
-  async triggerHealthCheck(code: string): Promise<AccessArchiveResponse> {
+  async triggerHealthCheck(code: string): Promise<HealthCheckResponse> {
     const response = await fetch(`/api/settings/health-check-trigger/${code}`, {
       ...this.getStandardRequestInit(),
       method: "PUT",
     });
-    await this.handleError(response, "Error triggering health check.");
-    const accessArchiveResponse: AccessArchiveResponse = await response.json();
-    if (this.settings && this.settings.email === accessArchiveResponse.email) {
-      this.settings.dueDate = accessArchiveResponse.dueDate as number;
-      this.settings.triggerOnce = accessArchiveResponse.triggerOnce as boolean;
-    }
-    return accessArchiveResponse;
+    await mapError(response, "Error triggering health check.");
+    return response.json();
   }
 
-  async uploadFile(
-    file: Blob,
-    iv: string,
-    archiveName: string
+  async updateArchive(
+    updateArchiveDto: UpdateArchiveDto
   ): Promise<{ settings: Settings; archiveId: string }> {
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("idToken", Userfront.tokens.idToken);
-    formData.append("archiveName", archiveName);
-    formData.append("iv", iv);
+    formData.append("archiveName", updateArchiveDto.archiveName);
+    if (updateArchiveDto.blob) {
+      formData.append("file", updateArchiveDto.blob);
+    }
+    if (updateArchiveDto.iv) {
+      formData.append("iv", updateArchiveDto.iv);
+    }
+    formData.append("accessCode", updateArchiveDto.accessCode);
+    formData.append("archiveId", updateArchiveDto.id);
+    const response = await fetch(`/api/archives`, {
+      method: "PUT",
+      mode: "cors",
+      cache: "no-cache",
+      body: formData,
+    });
+    await mapError(response, "Error uploading file.");
+    return response.json();
+  }
+
+  async createArchive(
+    creatArchiveDto: CreateArchiveDto
+  ): Promise<{ settings: Settings; archiveId: string }> {
+    const formData = new FormData();
+    formData.append("archiveName", creatArchiveDto.archiveName);
+    formData.append("file", creatArchiveDto.blob);
+    formData.append("iv", creatArchiveDto.iv);
     const response = await fetch(`/api/archives`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
-        Authorization: "Bearer " + Userfront.tokens?.accessToken,
-      },
       body: formData,
     });
-    await this.handleError(response, "Error uploading file.");
-    const { entry, archiveId } = await response.json();
-    this.settings = entry;
-    return { settings: this.settingsCopy, archiveId };
+    await mapError(response, "Error uploading file.");
+    return response.json();
   }
 }

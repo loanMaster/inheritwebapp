@@ -3,6 +3,8 @@ import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { Archive } from "@/entities/archive";
 import { Settings } from "@/entities/settings";
+import { parseFormData } from "./form-data.parser";
+import { EventHistory } from "@/entities/history";
 
 export const TEST_FILE = {
   hash: "QmTqWdh8N9so14UBdZbBxBsbfh6xPmfyJgekRBgJ3eSrUR",
@@ -10,55 +12,109 @@ export const TEST_FILE = {
   password: "supertestpassword",
 };
 
+export const MOCK_FILE_SERVER_LOCATION = "https://gateway.pinata.cloud/ipfs/";
+
 export class MockBackend {
   settingsMock: Settings = {
     email: "john.due@example.com",
-    intervalReminder: 3,
+    intervalReminder: 1440,
     archives: [],
     dueDate: Date.now(),
     triggerOnce: false,
     isReminder: false,
     contactAttempts: [],
     dead: false,
+    justCreated: false,
+    useIpfsStorage: false,
   };
-  ipfsMocks = [
+  fileMocks: {
+    hash: string;
+    file: string | undefined;
+    content: string | undefined;
+  }[] = [
     {
       hash: TEST_FILE.hash,
       file: __dirname + "/../assets/encrypted-archive",
+      content: undefined,
     },
   ];
+  historyMock: EventHistory = {
+    hasMore: false,
+    history: [
+      {
+        name: "Archive deleted",
+        fileId: "bfc893e9-a50d-4dce-a4a9-a5d641e557b4",
+        date: 1646552344468,
+      },
+      { name: "Resurrection", date: 1646551980433 },
+      {
+        name: 'Deactivated "alive" switch',
+        date: 1646551977119,
+      },
+      {
+        name: "Archive content replaced",
+        fileId: "QmQ714DRsvmDp9vg4gtXYuuzC1DnogGEHgAWdcR7Xc7bgn",
+        previousFileId: "693db0db-2306-43b6-9f71-45feee47c668",
+        date: 1646551756540,
+      },
+      {
+        name: "Access code changed",
+        fileId: "QmY5ojdvhxjMQuVt3oPBp9K5Myn22x1wtrh5GPfjENN8cF",
+        date: 1646551686651,
+      },
+      {
+        name: "Health check sent",
+        email: "member@example.com",
+        date: 1646551137115,
+      },
+      {
+        name: "Health check triggered",
+        accessCode: "e0fe0c5e-4365-46f1-a164-763a34c6efa1",
+        date: 1646551085998,
+      },
+      {
+        name: "Archive created",
+        fileId: "693db0db-2306-43b6-9f71-45feee47c668",
+        date: 1646551043357,
+      },
+      {
+        name: "First access to dashboard",
+        date: 1645781849850,
+      },
+    ],
+  };
 
   async initMocks(page: Page) {
     await this.initSettingsMocks(page);
-    await this.initIpfsMocks(page);
+    await this.initFileMocks(page);
     await this.initHealthCheckTriggerMock(page);
     await this.initArchiveMocks(page);
+    await this.initHistoryMocks(page);
   }
 
-  private async initIpfsMocks(page: Page) {
-    await page.route(
-      `https://gateway.pinata.cloud/ipfs/*`,
-      (route, request) => {
-        for (let idx = 0; idx < this.ipfsMocks.length; idx++) {
-          const ipsfFileMock = this.ipfsMocks[idx];
-          if (request.url().endsWith(ipsfFileMock.hash)) {
-            route.fulfill({
-              status: 200,
-              body: fs.readFileSync(ipsfFileMock.file),
-              headers: { "access-control-allow-origin": "*" },
-              contentType: "text/plain",
-            });
-            return;
-          }
+  private async initFileMocks(page: Page) {
+    await page.route(`${MOCK_FILE_SERVER_LOCATION}*`, (route, request) => {
+      for (let idx = 0; idx < this.fileMocks.length; idx++) {
+        const ipsfFileMock = this.fileMocks[idx];
+        if (request.url().endsWith(ipsfFileMock.hash)) {
+          route.fulfill({
+            status: 200,
+            body:
+              ipsfFileMock.content ||
+              fs.readFileSync(ipsfFileMock.file as string),
+            headers: { "access-control-allow-origin": "*" },
+            contentType: "text/plain",
+          });
+          return;
         }
-        route.fulfill({
-          status: 404,
-          body: JSON.stringify({ error: "Not found" }),
-          headers: { "access-control-allow-origin": "*" },
-          contentType: "text/plain",
-        });
       }
-    );
+      route.fulfill({
+        status: 404,
+        body: JSON.stringify({ error: "Not found" }),
+        headers: { "access-control-allow-origin": "*" },
+        contentType: "text/plain",
+      });
+    });
   }
 
   private async initSettingsMocks(page: Page) {
@@ -69,19 +125,17 @@ export class MockBackend {
           route.fulfill({
             status: 200,
             body: JSON.stringify(this.settingsMock),
-            headers: { "access-control-allow-origin": "*" },
             contentType: "application/json",
           });
         } else if (request.method() === "PUT") {
           const body = JSON.parse(request.postData() as string);
           this.settingsMock = {
             ...this.settingsMock,
-            ...body.settings,
+            ...body,
           };
           route.fulfill({
             status: 200,
             body: JSON.stringify(this.settingsMock),
-            headers: { "access-control-allow-origin": "*" },
             contentType: "application/json",
           });
         }
@@ -105,19 +159,17 @@ export class MockBackend {
             contactAttempts: this.settingsMock.contactAttempts,
             dueDate: this.settingsMock.dueDate,
             dead: this.settingsMock.dead,
-            archive,
+            archive: this.settingsMock.dead ? archive : undefined,
           };
           route.fulfill({
             status: 200,
             body: JSON.stringify(response),
-            headers: { "access-control-allow-origin": "*" },
             contentType: "application/json",
           });
         } else {
           route.fulfill({
             status: 400,
             body: JSON.stringify({ error: "Code incorrect" }),
-            headers: { "access-control-allow-origin": "*" },
             contentType: "application/json",
           });
         }
@@ -131,35 +183,57 @@ export class MockBackend {
       async (route, request) => {
         switch (request.method()) {
           case "POST":
-            const mockArchive: Archive = {
-              iv: "1",
-              ipfsHash: "2",
+            const createArchiveData = parseFormData(
+              request.headers()["content-type"] as string,
+              request.postData() as string
+            );
+            const fileId = uuidv4();
+            this.fileMocks.push({
+              content: createArchiveData.file?.content,
+              hash: fileId,
+              file: undefined,
+            });
+            const newArchive = {
               id: uuidv4(),
-              creationDate: Date.now(),
-              size: 123,
+              archiveName: createArchiveData.values.archiveName,
               accessCode: uuidv4(),
+              iv: createArchiveData.values.iv,
+              file: {
+                ipfs: true,
+                size: createArchiveData.file?.size || 0,
+                id: fileId,
+                location: MOCK_FILE_SERVER_LOCATION + fileId,
+              },
+              creationDate: Date.now(),
+              lastModified: Date.now(),
             };
-            this.settingsMock.archives.push(mockArchive);
+            this.settingsMock.archives.push(newArchive);
             route.fulfill({
               status: 200,
               body: JSON.stringify({
-                entry: this.settingsMock,
-                archiveId: mockArchive.id,
+                settings: this.settingsMock,
+                archiveId: newArchive.id,
               }),
-              headers: { "access-control-allow-origin": "*" },
               contentType: "application/json",
             });
             break;
           case "PUT":
-            const update: { archive: Archive } = request.postDataJSON();
+            const formData = parseFormData(
+              request.headers()["content-type"] as string,
+              request.postData() as string
+            );
             const archive = this.settingsMock.archives.find(
-              (archive: Archive) => archive.id === update.archive.id
+              (a) => a.id === formData.values.archiveId
             ) as Archive;
-            archive.archiveName = update.archive.archiveName;
+            archive.accessCode = formData.values.accessCode;
+            archive.archiveName = formData.values.archiveName;
+            archive.iv = formData.values.iv;
             route.fulfill({
               status: 200,
-              body: JSON.stringify(this.settingsMock),
-              headers: { "access-control-allow-origin": "*" },
+              body: JSON.stringify({
+                settings: this.settingsMock,
+                archiveId: archive.id,
+              }),
               contentType: "application/json",
             });
             break;
@@ -179,7 +253,19 @@ export class MockBackend {
         route.fulfill({
           status: 200,
           body: JSON.stringify(this.settingsMock),
-          headers: { "access-control-allow-origin": "*" },
+          contentType: "application/json",
+        });
+      }
+    );
+  }
+
+  private async initHistoryMocks(page: Page) {
+    await page.route(
+      `${process.env.WEBSITE_PATH}/api/history`,
+      async (route) => {
+        route.fulfill({
+          status: 200,
+          body: JSON.stringify(this.historyMock),
           contentType: "application/json",
         });
       }

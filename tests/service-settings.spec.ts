@@ -3,8 +3,25 @@ import { mockLogin } from "./mocks/mock.login";
 import { MockBackend } from "./mocks/mock.backend";
 import { ServiceSettingsPom } from "./poms/service-settings.pom";
 
+const DAY = 1440;
+const POSSIBLE_INTERVAL_VALUES = [
+  5,
+  10,
+  30,
+  60,
+  180,
+  600,
+  DAY,
+  2 * DAY,
+  3 * DAY,
+  5 * DAY,
+  7 * DAY,
+  10 * DAY,
+  14 * DAY,
+];
+
 const settingUpdate = {
-  intervalReminder: 7,
+  intervalReminder: 3 * DAY,
 };
 
 test.describe("service-settings", async () => {
@@ -22,18 +39,31 @@ test.describe("service-settings", async () => {
     const settingsMock = mockBackend.settingsMock;
 
     await pom.navigateTo();
-    await pom.verifyIntervalReminder(settingsMock.intervalReminder);
-    await pom.verifyAlive("on");
+    await pom.verifyIntervalReminder(
+      POSSIBLE_INTERVAL_VALUES.indexOf(settingsMock.intervalReminder)
+    );
+    await pom.verifyAlive(true);
+    await pom.verifyUseCloudStorageContainer(false);
+    await pom.verifyUseIpfsStorage(true);
   });
 
   test("update-settings", async ({ page }) => {
     await pom.navigateTo();
-    await pom.setIntervalReminder(settingUpdate.intervalReminder);
+    await pom.setIntervalReminder(
+      POSSIBLE_INTERVAL_VALUES.indexOf(settingUpdate.intervalReminder)
+    );
+    await pom.useCloudStorageContainer();
+    await pom.uncheckAliveCheckbox();
 
     await pom.submit();
     await pom.verifySettingsUpdateSuccessful();
     await page.reload();
 
-    await pom.verifyIntervalReminder(settingUpdate.intervalReminder);
+    await pom.verifyIntervalReminder(
+      POSSIBLE_INTERVAL_VALUES.indexOf(settingUpdate.intervalReminder)
+    );
+    await pom.verifyAlive(false);
+    await pom.verifyUseCloudStorageContainer(true);
+    await pom.verifyUseIpfsStorage(false);
   });
 });

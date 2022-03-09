@@ -10,11 +10,11 @@ export class AccessArchivePom {
   }
 
   async enterCode(code: string) {
-    this.page.fill('[test="input-code"]', code);
+    await this.page.fill('[test="input-code"]', code);
   }
 
   async submitCode() {
-    this.page.click('[test="btn-submit"]');
+    await this.page.click('[test="btn-submit"]');
   }
 
   async verifyHealthCheckTriggeredMsgVisible() {

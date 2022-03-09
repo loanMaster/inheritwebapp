@@ -160,6 +160,11 @@ label {
         display: none!important;
     }
 }
+@media screen and (min-width: 993px) {
+    .my-desktop-hidden {
+        display: none!important;
+    }
+}
 
 .my-msg-anchor {
     position: relative;

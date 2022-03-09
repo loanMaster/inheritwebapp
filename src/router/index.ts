@@ -4,9 +4,28 @@ import {
   NavigationGuardNext,
   RouteLocationNormalized,
 } from "vue-router";
-import Home from "../views/HomeBeauty.vue";
+import Home from "../components/home/HomeBeauty.vue";
 import Userfront from "@userfront/core";
-import * as jwtDecode from "jwt-decode";
+import { isTokenValid, shouldRefreshToken } from "@/util/token.utils";
+import { appStore } from "@/store/store";
+import Dashboard from "@/components/dashboard/Dashboard.vue";
+import HistoryComponent from "@/components/dashboard/history/History.vue";
+import ServiceInfo from "@/components/dashboard/info/ServiceInfo.vue";
+import ServiceSettings from "@/components/dashboard/ServiceSettings.vue";
+import ManageArchives from "@/components/dashboard/manage-archives/ManageArchives.vue";
+import CreatedEncryptedArchive from "@/components/dashboard/create-archive/CreatedEncryptedArchive.vue";
+import Donations from "@/components/documentation/Donations.vue";
+import Account from "@/components/dashboard/account/Account.vue";
+import Documentation from "@/components/documentation/Documentation.vue";
+import Introduction from "@/components/documentation/Introduction.vue";
+import Faq from "@/components/documentation/Faq.vue";
+import Contact from "@/components/documentation/Contact.vue";
+import Signup from "@/components/user-management/Signup.vue";
+import VerificationPending from "@/components/user-management/VerificationPending.vue";
+import Login from "@/components/user-management/Login.vue";
+import ResetPassword from "@/components/user-management/ResetPassword.vue";
+import Reset from "@/components/user-management/Reset.vue";
+import AccessArchive from "@/components/access-archive/AccessArchive.vue";
 
 const routes = [
   {
@@ -17,7 +36,7 @@ const routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    component: () => import("../views/Dashboard.vue"),
+    component: Dashboard,
     redirect: { path: "/dashboard/create-encrypted-archive" },
     beforeEnter: (
       to: RouteLocationNormalized,
@@ -29,6 +48,8 @@ const routes = [
         !isTokenValid(Userfront.tokens.accessToken)
       ) {
         next({ name: "login" });
+      } else if (!Userfront.user.isConfirmed) {
+        next({ name: "VerificationPending" });
       } else {
         next();
       }
@@ -37,66 +58,115 @@ const routes = [
       {
         path: "service-settings",
         name: "ServiceSettings",
-        component: () => import("../views/ServiceSettings.vue"),
+        component: ServiceSettings,
       },
       {
         path: "info",
         name: "HealthCheckInfo",
-        component: () => import("../views/ServiceInfo.vue"),
+        component: ServiceInfo,
+      },
+      {
+        path: "history",
+        name: "History",
+        component: HistoryComponent,
       },
       {
         path: "manage-archives",
         name: "ManageArchives",
-        component: () => import("../views/ManageArchives.vue"),
+        component: ManageArchives,
       },
       {
         path: "create-encrypted-archive",
         name: "CreatedEncryptedArchive",
-        component: () => import("../views/CreatedEncryptedArchive.vue"),
+        component: CreatedEncryptedArchive,
+      },
+      {
+        path: "donations",
+        name: "DashboardDonations",
+        component: Donations,
+      },
+      {
+        path: "account",
+        name: "Account",
+        component: Account,
       },
     ],
   },
   {
     path: "/docs",
     name: "Documentation",
-    component: () => import("../views/Documentation.vue"),
+    redirect: { path: "/docs/introduction" },
+    component: Documentation,
+    children: [
+      {
+        path: "introduction",
+        name: "Introduction",
+        component: Introduction,
+      },
+      {
+        path: "faq",
+        name: "FAQ",
+        component: Faq,
+      },
+      {
+        path: "contact",
+        name: "Contact",
+        component: Contact,
+      },
+      {
+        path: "donations",
+        name: "Donations",
+        component: Donations,
+      },
+    ],
   },
   {
     path: "/signup",
     name: "signup",
-    component: () => import("../views/Signup.vue"),
+    component: Signup,
+  },
+  {
+    path: "/verification-pending",
+    name: "VerificationPending",
+    component: VerificationPending,
+    beforeEnter: (
+      to: RouteLocationNormalized,
+      from: RouteLocationNormalized,
+      next: NavigationGuardNext
+    ) => {
+      if (
+        !Userfront.tokens.accessToken ||
+        !isTokenValid(Userfront.tokens.accessToken)
+      ) {
+        next({ name: "login" });
+      } else if (Userfront.user.isConfirmed) {
+        next({ name: "Dashboard" });
+      } else {
+        next();
+      }
+    },
   },
   {
     path: "/login",
     name: "login",
-    component: () => import("../views/Login.vue"),
+    component: Login,
   },
   {
     path: "/reset-password",
     name: "reset-password",
-    component: () => import("../views/ResetPassword.vue"),
+    component: ResetPassword,
   },
   {
     path: "/reset",
     name: "reset",
-    component: () => import("../views/Reset.vue"),
+    component: Reset,
   },
   {
     path: "/health-check-and-decrypt",
     name: "health-check-and-decrypt",
-    component: () => import("../views/AccessArchive.vue"),
+    component: AccessArchive,
   },
 ];
-
-export function isTokenValid(token: string) {
-  try {
-    const decoded: { exp: number } = jwtDecode.default(token);
-    const now = Date.now() / 1000;
-    return now < decoded.exp;
-  } catch (error) {
-    return false;
-  }
-}
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -104,6 +174,13 @@ const router = createRouter({
   scrollBehavior() {
     return { top: 0 };
   },
+});
+
+router.beforeEach(async () => {
+  if (Userfront.tokens && shouldRefreshToken(Userfront.tokens?.accessToken)) {
+    await appStore.dispatch("refreshAccessToken");
+  }
+  return true;
 });
 
 export default router;

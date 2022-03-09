@@ -9,8 +9,8 @@ export class ManageArchivesPom {
     );
   }
 
-  async getArchiveCount() {
-    return this.page.locator('[test="edit-archive"]').count();
+  async verifyArchiveCount(num: number) {
+    await expect(this.page.locator('[test="edit-archive"]')).toHaveCount(num);
   }
 
   async deleteArchiveConfirm(index = 0) {
@@ -44,7 +44,7 @@ export class ManageArchivesPom {
     await this.page.click(`[test="delete-archive-btn"] >> nth=${index}`);
     const locator = this.page.locator(`[test="confirm-delete-modal"] >> nth=0`);
     await expect(await locator.isVisible()).toBeTruthy();
-    await this.page.click(`[test="modal-cancel"]`);
+    await this.page.click(`[test="modal-cancel"] >> nth=1`);
   }
 
   async openDownloadAndDecryptModal(index = 0) {
@@ -81,9 +81,9 @@ export class ManageArchivesPom {
     this.page.click(`[test="show-edit-modal"] >> nth=${index}`);
   }
 
-  async verifyIpfsHash(value: string, index = 0) {
+  async verifyFileId(value: string, index = 0) {
     await expect(
-      this.page.locator(`[test="ipfs-hash"] >> nth=${index}`)
+      this.page.locator(`[test="file-id"] >> nth=${index}`)
     ).toContainText(value);
   }
 
@@ -97,6 +97,12 @@ export class ManageArchivesPom {
     await expect(
       this.page.locator(`[test="size"] >> nth=${index}`)
     ).toContainText(value);
+  }
+
+  async verifyStorageLocationType(value: string) {
+    await expect(this.page.locator(`[test="location-type"]`)).toContainText(
+      value
+    );
   }
 
   async verifyIpfsLink(value: string, index = 0) {

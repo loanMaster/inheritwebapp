@@ -6,19 +6,16 @@
           <img src="/icons/icon.png" class="my-brand-icon" />
           <span class="my-bold my-small-font">MY-LEGACY</span></a
         >
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          @click="toggleMenu"
-        >
+        <button class="navbar-toggler" type="button" @click="toggleMenu">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div
           class="collapse navbar-collapse show my-navbar"
           :class="collapsedMenu ? '' : 'my-expand'"
         >
-          <ul class="navbar-nav me-auto mb-2-s mb-lg-0 ml-2-s">
+          <ul
+            class="navbar-nav me-auto mb-2-s mb-lg-0 ml-2-s my-flex-align-center"
+          >
             <li class="nav-item">
               <router-link class="nav-link active" to="/">Home</router-link>
             </li>
@@ -28,15 +25,18 @@
               >
             </li>
             <li class="nav-item">
-              <router-link class="nav-link active" to="/dashboard"
+              <router-link
+                class="nav-link active"
+                to="/dashboard"
+                v-if="loggedIn"
                 >Dashboard</router-link
               >
             </li>
             <li class="nav-item">
               <router-link
-                class="nav-link active"
+                class="nav-link active my-heir-button"
                 to="/health-check-and-decrypt"
-                >Trigger a health check / Access archive</router-link
+                >Are you an heir? Use your access code here</router-link
               >
             </li>
           </ul>
@@ -69,29 +69,24 @@
   </div>
 </template>
 
-<script>
-import Userfront from "@userfront/core";
-import { SettingsService } from "@/service/settings.service.ts";
-import { EncryptionService } from "@/service/encryption.service.ts";
+<script lang="ts">
+import { defineComponent } from "vue";
+import { isTokenValid } from "@/util/token.utils";
 
-export default {
+export default defineComponent({
   data() {
     return {
       collapsedMenu: true,
     };
   },
-  provide: {
-    settingsService: new SettingsService(),
-    encryptionService: new EncryptionService(),
-  },
   computed: {
     loggedIn() {
-      return Userfront.tokens.accessToken;
+      return isTokenValid(this.$store.state.accessToken);
     },
   },
   methods: {
     logout() {
-      Userfront.logout();
+      this.$store.dispatch("logout");
     },
     toggleMenu() {
       this.collapsedMenu = !this.collapsedMenu;
@@ -102,7 +97,7 @@ export default {
       this.collapsedMenu = true;
     },
   },
-};
+});
 </script>
 
 <style scoped>
@@ -150,5 +145,12 @@ export default {
 .my-brand-icon {
   max-height: 40px;
   height: 40px;
+}
+
+.my-heir-button {
+  background-color: orange;
+  border: 2px solid black;
+  border-radius: 25px;
+  text-decoration: none !important;
 }
 </style>

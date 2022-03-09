@@ -6,7 +6,7 @@ import { formatDate, formatDateTime } from "@/util/format-date";
 
 const MINUTE = 60 * 1000;
 const HOUR = 60 * MINUTE;
-const DAY = 24 * HOUR;
+const DAY = 24 * 60 * MINUTE;
 
 test.describe("service-info", async () => {
   let pom: ServiceInfoPom;
@@ -25,7 +25,7 @@ test.describe("service-info", async () => {
     await pom.verifyNoHealthCheckTriggeredTextVisible();
     const text = await pom.getNoHealthCheckTriggeredText();
     const expectedData =
-      Date.now() + 4 * mockBackend.settingsMock.intervalReminder * DAY;
+      Date.now() + 4 * mockBackend.settingsMock.intervalReminder * MINUTE;
     expect(text).toContain(formatDate(expectedData));
   });
 
@@ -88,42 +88,51 @@ test.describe("service-info", async () => {
       );
     });
 
-    test("display-expected-messages-send-date", async ({ page }) => {
-      mockBackend.settingsMock.intervalReminder = 1;
+    test("display-expected-messages-send-date", async () => {
+      mockBackend.settingsMock.intervalReminder = 1440;
       mockBackend.settingsMock.dueDate = Date.now();
 
       let expectedDate = formatDate(
         mockBackend.settingsMock.dueDate +
-          4 * DAY * mockBackend.settingsMock.intervalReminder
+          4 * MINUTE * mockBackend.settingsMock.intervalReminder
       );
       await pom.navigateTo();
       await expect(await pom.getInfoText()).toContain(
-        `In case you die today, the access to the archive(s) you prepared will be granted on ${expectedDate} to your heirs.`
+        `In case you die today, access to the archives you prepared will be granted on ${expectedDate} to your heirs.`
       );
 
-      mockBackend.settingsMock.dueDate = Date.now() - 2 * DAY;
-      await page.reload();
+      mockBackend.settingsMock.triggerOnce = false;
+      mockBackend.settingsMock.dueDate = Date.now() - 0.5 * DAY;
+      await pom.navigateTo();
+      expectedDate = formatDate(
+        Date.now() + 4 * MINUTE * mockBackend.settingsMock.intervalReminder
+      );
+      await expect(await pom.getInfoText()).toContain(expectedDate);
+
+      mockBackend.settingsMock.triggerOnce = true;
+
+      await pom.navigateTo();
       expectedDate = formatDate(
         mockBackend.settingsMock.dueDate +
-          4 * DAY * mockBackend.settingsMock.intervalReminder
+          4 * MINUTE * mockBackend.settingsMock.intervalReminder
       );
       await expect(await pom.getInfoText()).toContain(expectedDate);
 
       mockBackend.settingsMock.dueDate = Date.now() + HOUR;
       mockBackend.settingsMock.contactAttempts = [1, 2, 3];
-      await page.reload();
+      await pom.navigateTo();
       expectedDate = formatDate(
         mockBackend.settingsMock.dueDate +
-          DAY * mockBackend.settingsMock.intervalReminder
+          MINUTE * mockBackend.settingsMock.intervalReminder
       );
       await expect(await pom.getInfoText()).toContain(expectedDate);
 
       mockBackend.settingsMock.dueDate = Date.now() + HOUR;
       mockBackend.settingsMock.contactAttempts = [1, 2];
-      await page.reload();
+      await pom.navigateTo();
       expectedDate = formatDate(
         mockBackend.settingsMock.dueDate +
-          2 * DAY * mockBackend.settingsMock.intervalReminder
+          2 * MINUTE * mockBackend.settingsMock.intervalReminder
       );
       await expect(await pom.getInfoText()).toContain(expectedDate);
     });

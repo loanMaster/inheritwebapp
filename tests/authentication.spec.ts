@@ -63,7 +63,7 @@ test("signup-success", async ({ page }) => {
     "Th1s_P@assword_5hould_SuFfIcE"
   );
   await expect(page.locator('[test="signup-success-msg"]')).toContainText(
-    "Thank you for signing up. To activate your account click on the link in the confirmation email you will receive shortly."
+    "Thank you for signing up. To activate your account click on the link in the verification email you will receive shortly."
   );
 });
 
