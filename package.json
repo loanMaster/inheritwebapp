@@ -22,7 +22,6 @@
     "unzipit": "^1.4.0",
     "uuid": "^8.3.2",
     "vue": "^3.0.0",
-    "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.2"
   },
