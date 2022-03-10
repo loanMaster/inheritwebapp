@@ -100,7 +100,7 @@
         </div>
         <div class="item-heading mt-4">From Switzerland</div>
         <div class="center">
-          <i>my-legacy</i> profits from this political and economic stability in
+          <i>my-legacy</i> profits from the political and economic stability in
           Switzerland, which is a safe haven in times of unrest.
         </div>
         <div class="item-heading mt-4">For free</div>

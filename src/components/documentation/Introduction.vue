@@ -4,7 +4,9 @@
     <i>my-legacy</i> is a service that allows users to easily pass on documents
     to their heirs (pdfs, text files, crypto keys, or any other file). The
     service is appropriate for passing on any type of file to friends or family
-    members in the event of death.
+    members in the event of death.<br />
+    In addition, <i>my-legacy</i> is suitable to manage or backup any private
+    data.
 
     <h5 class="mt-2">Motivation</h5>
     The traditional way of inheriting important data is to deposit a "last will"
@@ -51,9 +53,7 @@
       </li>
       <li>
         You share your encryption password and the <i>access code</i> with your
-        heirs. Your heirs will not be able to access your data because they do
-        not know the file location and do not know the initialization vector
-        used for encryption.<br />
+        heirs. Your heirs can not access your files yet.<br />
       </li>
     </ol>
 
@@ -102,8 +102,8 @@
     transferred files are not the responsibility of <i>my-legacy</i> but of the
     user and/or the user's heirs. Although the content of your files is unknown
     to <i>my-legacy</i>, it is not permitted to upload illegal and unlawful
-    content. My-legacy is not responsible in any way for the user files and
-    their content.
+    content. <i>my-legacy</i> is not responsible in any way for the user files
+    and their content.
 
     <h5 class="mt-2">Data storage</h5>
     Customers can choose to upload their encrypted files either to a

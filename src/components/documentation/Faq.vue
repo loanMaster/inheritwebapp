@@ -4,9 +4,8 @@
     Create a file containing the information needed to access your wallet(s). In
     the dashboard, navigate to <i>Create encrypted archive</i>. Select a
     password and encrypt and upload the file. Share the password and the
-    archive's <i>access code</i> with your heirs. Your heirs will be unable to
-    access your archive because they do not know the file location and the
-    initialization vector used for encryption. If you die, your users can use an
+    archive's <i>access code</i> with your heirs. Your heirs will not be able to
+    access your archive yet. If you die, your users can use an
     <i>access code</i> to trigger a <i>health check</i>. If the
     <i>health check</i> remains unanswered, your heirs can access your archive
     using the <i>access code</i>. They can decrypt the archive with the password
@@ -57,7 +56,7 @@
     information about where the encrypted archives are located and what
     initialization vector for the encryption was used. The attackers will not
     know the password to your archive, however, and therefore cannot access your
-    data.
+    data. The hackers might also obtain your email address.
 
     <h5 class="mt-2">
       😱 How can I be sure that an attacker can not decrypt my files?
@@ -76,12 +75,12 @@
     <h5 class="mt-2">
       🌎 Why are the encrypted files stored in the interplanetary file system?
     </h5>
-    Users can store their archives in either the interplanetary file system or a
-    traditional cloud storage container. The
+    Users can choose to either store their archives in the interplanetary file
+    system or a traditional cloud storage container. The
     <a href="https://ipfs.io/">interplanetary file system</a> is a decentralized
-    storage. In the event of a database crash of <i>my-legacy</i> the files will
-    still be available. You can access and decrypt the files if you know the
-    file location, the initialization vector used for encryption, and the
+    storage. During a downtime of the <i>my-legacy</i> website the ipfs files
+    will still be accessible. You can access and decrypt the files if you know
+    the file location, the initialization vector used for encryption, and the
     encryption password. The file location and initialization vector are shown
     in the dashboard.
 
@@ -98,7 +97,7 @@
     wish to grant access at this point. <i>my-legacy</i> is not responsible for
     any consequences in these cases. Any legal or tax-related aspects of
     transferring the archive are the sole responsibility of the customer and its
-    potential heirs, and not of my-legacy.
+    potential heirs, and not of <i>my-legacy</i>.
 
     <h5 class="mt-2">🕵 What to do if I suspect unauthorized actions?</h5>
     If you suspect suspicious unauthorized actions please delete your archives
