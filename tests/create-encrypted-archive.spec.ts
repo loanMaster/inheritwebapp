@@ -39,6 +39,18 @@ test.describe("create-encrypted-archive", async () => {
     await pom.verifyAccessCodeShown(
       mockBackend.settingsMock.archives[0].accessCode
     );
+    expect(mockBackend.settingsMock.archives[0].file.ipfs).toBeFalsy();
+  });
+
+  test("create-archive-ipfs", async () => {
+    await fillCreateArchiveForm();
+    await pom.checkIpfsRadiobutton();
+    await pom.submit();
+    await pom.verifyCreateArchiveSuccessful();
+    await pom.verifyAccessCodeShown(
+      mockBackend.settingsMock.archives[0].accessCode
+    );
+    expect(mockBackend.settingsMock.archives[0].file.ipfs).toBeTruthy();
   });
 
   test("create-archive-multiple-files", async () => {

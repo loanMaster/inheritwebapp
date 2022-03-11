@@ -9,6 +9,5 @@ export interface Settings {
   isReminder: boolean;
   contactAttempts: number[];
   dead: boolean;
-  useIpfsStorage: boolean;
   justCreated: boolean;
 }

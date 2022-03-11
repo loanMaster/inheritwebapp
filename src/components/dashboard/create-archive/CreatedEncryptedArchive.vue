@@ -12,21 +12,6 @@
         >AES-GCM algorithm</a
       >
       in the browser.
-
-      <span v-if="settings.useIpfsStorage"
-        >The encrypted archive will stored in the
-        <a href="https://ipfs.io/">interplanetary file system (ipfs)</a>.</span
-      >
-      <span v-if="!settings.useIpfsStorage"
-        >The encrypted archive will be stored in a cloud storage
-        container.</span
-      >
-      You can change this setting at any time in the
-      <router-link to="/dashboard/service-settings"
-        >service settings</router-link
-      >
-      on the dashboard.
-      <br />
     </div>
     <div class="my-border-box mt-4 mb-2">
       <CreateArchive @archive-created="onArchiveCreated" />

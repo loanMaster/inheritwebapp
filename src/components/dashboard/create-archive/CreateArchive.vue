@@ -67,7 +67,37 @@
           required
         />
       </div>
-      <div class="mt-2 my-flex">
+
+      <div class="mt-2">
+        <label>File storage</label>
+        <div>
+          You can choose whether to upload your encrypted files to the
+          <a href="https://ipfs.io/">interplanetary file system</a> or to a
+          standard cloud storage container. Just stick with the standard cloud
+          storage container if you are unsure what to choose.
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            v-model="newArchive.useIpfsStorage"
+            :value="false"
+          />
+          <span> Standard cloud storage container </span>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            test="use-ipfs-storage"
+            v-model="newArchive.useIpfsStorage"
+            :value="true"
+          />
+          <span> Interplanetary file system </span>
+        </div>
+      </div>
+
+      <div class="mt-4 my-flex">
         <input
           class="form-check-input mr-2"
           type="checkbox"
@@ -164,6 +194,7 @@ export default defineComponent({
       pass: "",
       passVerify: "",
       newArchive: {
+        useIpfsStorage: false,
         archiveName: "",
         attachments: [],
         accessCode: undefined,
@@ -178,6 +209,7 @@ export default defineComponent({
       pass: string;
       passVerify: string;
       newArchive: {
+        useIpfsStorage: boolean;
         archiveName: string;
         attachments: Attachment[];
         accessCode: undefined | string;
@@ -216,6 +248,7 @@ export default defineComponent({
           this.pass
         );
         await this.$store.dispatch("createArchive", {
+          ipfs: this.newArchive.useIpfsStorage,
           blob: encryption.blob,
           iv: encryption.iv,
           archiveName: this.newArchive.archiveName,

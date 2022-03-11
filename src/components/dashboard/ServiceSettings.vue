@@ -18,35 +18,6 @@
       />
     </div>
 
-    <label class="form-label mt-4">File storage</label>
-    <div>
-      You can choose whether to upload your encrypted files to the
-      <a href="https://ipfs.io/">interplanetary file system (ipfs)</a> or to a
-      standard cloud storage container. Please have a look at the
-      <router-link to="/docs">documentation</router-link>
-      if you are unsure what to choose.
-    </div>
-    <div class="form-check">
-      <input
-        class="form-check-input"
-        type="radio"
-        test="use-ipfs-storage"
-        v-model="useIpfsStorage"
-        :value="false"
-      />
-      <span> Standard cloud storage container </span>
-    </div>
-    <div class="form-check">
-      <input
-        class="form-check-input"
-        type="radio"
-        test="use-cloud-storage-container"
-        v-model="useIpfsStorage"
-        :value="true"
-      />
-      <span> Interplanetary file system </span>
-    </div>
-
     <label class="form-label mt-4">Interval of <i>reminder</i> emails</label>
     <div class="my-justify">
       You will receive 3 <i>reminder</i> emails if you fail to respond to a
@@ -119,7 +90,6 @@ export default defineComponent({
       successmsg: "",
       fetchingData: false,
       alive: true,
-      useIpfsStorage: true,
       savingData: false,
       intervalSetting: POSSIBLE_INTERVAL_VALUES.length - 1,
       intervalMax: POSSIBLE_INTERVAL_VALUES.length - 1,
@@ -128,7 +98,6 @@ export default defineComponent({
   async created() {
     await waitForSettings(this.$store);
     this.alive = !this.settings.dead;
-    this.useIpfsStorage = this.settings.useIpfsStorage;
     this.intervalSetting =
       POSSIBLE_INTERVAL_VALUES.indexOf(this.settings.intervalReminder) > -1
         ? POSSIBLE_INTERVAL_VALUES.indexOf(this.settings.intervalReminder)
@@ -158,7 +127,6 @@ export default defineComponent({
         const intervalReminder = POSSIBLE_INTERVAL_VALUES[this.intervalSetting];
         await this.$store.dispatch("updateSettings", {
           dead: !this.alive,
-          useIpfsStorage: this.useIpfsStorage,
           intervalReminder,
         });
         this.successmsg = "👍 Settings updated.";

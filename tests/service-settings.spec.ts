@@ -43,8 +43,6 @@ test.describe("service-settings", async () => {
       POSSIBLE_INTERVAL_VALUES.indexOf(settingsMock.intervalReminder)
     );
     await pom.verifyAlive(true);
-    await pom.verifyUseCloudStorageContainer(false);
-    await pom.verifyUseIpfsStorage(true);
   });
 
   test("update-settings", async ({ page }) => {
@@ -52,7 +50,6 @@ test.describe("service-settings", async () => {
     await pom.setIntervalReminder(
       POSSIBLE_INTERVAL_VALUES.indexOf(settingUpdate.intervalReminder)
     );
-    await pom.useCloudStorageContainer();
     await pom.uncheckAliveCheckbox();
 
     await pom.submit();
@@ -63,7 +60,5 @@ test.describe("service-settings", async () => {
       POSSIBLE_INTERVAL_VALUES.indexOf(settingUpdate.intervalReminder)
     );
     await pom.verifyAlive(false);
-    await pom.verifyUseCloudStorageContainer(true);
-    await pom.verifyUseIpfsStorage(false);
   });
 });

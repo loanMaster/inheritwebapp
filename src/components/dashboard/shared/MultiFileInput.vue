@@ -29,6 +29,11 @@
       @remove-attachment="removeAttachment"
     ></FileListEntry>
   </div>
+  <div v-if="attachments.length > 0" class="mb-2">
+    <span
+      ><b>Total file size: {{ totalFileSize }}</b></span
+    >
+  </div>
   <div class="mb-4">
     <input
       class="form-control"
@@ -78,6 +83,11 @@ export default defineComponent({
   computed: {
     inputElement() {
       return this.$refs["upload-file-input"] as HTMLInputElement;
+    },
+    totalFileSize() {
+      return formatBytes(
+        calculateTotalSize([this.attachments as unknown as any[]])
+      );
     },
   },
   methods: {

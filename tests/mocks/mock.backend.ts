@@ -25,7 +25,6 @@ export class MockBackend {
     contactAttempts: [],
     dead: false,
     justCreated: false,
-    useIpfsStorage: false,
   };
   fileMocks: {
     hash: string;
@@ -199,7 +198,7 @@ export class MockBackend {
               accessCode: uuidv4(),
               iv: createArchiveData.values.iv,
               file: {
-                ipfs: true,
+                ipfs: !!createArchiveData.values.ipfs,
                 size: createArchiveData.file?.size || 0,
                 id: fileId,
                 location: MOCK_FILE_SERVER_LOCATION + fileId,

@@ -81,6 +81,9 @@ export class SettingsService {
     const formData = new FormData();
     formData.append("archiveName", creatArchiveDto.archiveName);
     formData.append("file", creatArchiveDto.blob);
+    if (creatArchiveDto.ipfs) {
+      formData.append("ipfs", "true");
+    }
     formData.append("iv", creatArchiveDto.iv);
     const response = await fetch(`/api/archives`, {
       method: "POST",

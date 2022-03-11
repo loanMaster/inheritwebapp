@@ -25,22 +25,6 @@ export class ServiceSettingsPom {
     );
   }
 
-  async verifyUseCloudStorageContainer(value: boolean) {
-    await expect(
-      await this.page.isChecked("[test='use-cloud-storage-container']")
-    ).toBe(value);
-  }
-
-  async verifyUseIpfsStorage(value: boolean) {
-    await expect(await this.page.isChecked("[test='use-ipfs-storage']")).toBe(
-      value
-    );
-  }
-
-  async useCloudStorageContainer() {
-    await this.page.check('[test="use-cloud-storage-container"]');
-  }
-
   async submit() {
     await this.page.click("[test='settings-submit']");
   }

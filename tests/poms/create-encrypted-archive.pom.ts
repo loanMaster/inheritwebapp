@@ -71,6 +71,10 @@ export class CreateEncryptedArchivePom {
     await this.page.click('[test="heirs-checkbox"]');
   }
 
+  async checkIpfsRadiobutton() {
+    await this.page.check('[test="use-ipfs-storage"]');
+  }
+
   async verifyCreateArchiveSuccessful() {
     await expect(
       await this.page.locator('[test="archive-created-msg"]')
