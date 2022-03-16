@@ -72,15 +72,28 @@ export default defineComponent({
   async created() {
     await this.$store.dispatch("redirectIfLoggedIn");
     if (this.$route.query.uuid && this.$route.query.token) {
-      this.showForm = false;
-      try {
-        await this.$store.dispatch("login", {
-          method: "link",
-          uuid: this.$route.query.uuid,
-          token: this.$route.query.token,
+      // clear all cookies and reload due to firefox bug.
+      if (document.cookie) {
+        document.cookie.split(";").forEach((c) => {
+          document.cookie = c
+            .replace(/^ +/, "")
+            .replace(
+              /=.*/,
+              "=;expires=" + new Date().toUTCString() + ";path=/"
+            );
+          location.reload();
         });
-      } catch (error) {
-        this.showForm = true;
+      } else {
+        this.showForm = false;
+        try {
+          await this.$store.dispatch("login", {
+            method: "link",
+            uuid: this.$route.query.uuid,
+            token: this.$route.query.token,
+          });
+        } catch (error) {
+          this.showForm = true;
+        }
       }
     }
   },
