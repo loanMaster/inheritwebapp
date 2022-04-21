@@ -33,7 +33,7 @@
     archives prepared by the deceased.
 
     <h5 class="mt-2">How to use my-legacy</h5>
-    <div class="my-bold mt-4">(1) Before our die</div>
+    <div class="my-bold mt-4">(1) Before you pass away</div>
     <div class="mb-4 my-center">
       <img src="/instructions/instruction1.png" />
     </div>
@@ -57,7 +57,7 @@
       </li>
     </ol>
 
-    <div class="my-bold mt-4">(2) After your die</div>
+    <div class="my-bold mt-4">(2) After you passed away</div>
     <div class="mb-4 my-center">
       <img src="/instructions/instruction2.png" />
     </div>

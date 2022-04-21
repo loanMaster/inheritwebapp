@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+    <url>
+        <loc>https://my-legacy.rocks/</loc>
+        <video:video>
+            <video:thumbnail_loc>https://my-legacy.rocks/promo/promo_preview.jpg</video:thumbnail_loc>
+            <video:title>Introduction to my-legacy</video:title>
+            <video:description>A short introduction video to the my-legacy service</video:description>
+            <video:content_loc>https://my-legacy.rocks/promo/promo.mp4</video:content_loc>
+            <video:duration>60</video:duration>
+            <video:family_friendly>yes</video:family_friendly>
+            <video:live>no</video:live>
+        </video:video>
+        <lastmod>2022-04-21</lastmod>
+    </url>
+    <url>
+        <loc>https://my-legacy.rocks/docs/introduction</loc>
+        <lastmod>2022-04-21</lastmod>
+    </url>
+    <url>
+        <loc>https://my-legacy.rocks/docs/faq</loc>
+        <lastmod>2022-04-21</lastmod>
+    </url>
+</urlset>
