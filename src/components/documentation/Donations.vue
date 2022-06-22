@@ -11,36 +11,16 @@
     (click on an address to copy it to the clipboard)<br /><br />
     Bitcoin:
     <CopyText address="3JUCr4UE9A7BELo661z729DehC4jgkqnVk" /><br /><br />
-    Ethereum / DAI / USDC / USD-T:
+    Ethereum:
     <CopyText
-      address="0x49c98b33edab55dccb4d8a1793fee56b2e482d22"
-    /><br /><br />
-    Cardano:
-    <CopyText
-      address="DdzFFzCqrht5KWFo1yhC4vd4SX2mroEDZKYAc3Rw3TqdvkBgfDUYGktQvaWgeMG84DGjsdRDvFdujVQnHjv2sV2geoa1zyqqUmEyndhf"
+      address="0x51622a619601E51f0a66F59036f7591C6bF1A29F"
     /><br /><br />
     Solana:
     <CopyText
-      address="ANqgvpCsEjAZ71e1DU3Cq6VS2Agk5m56rgQt8XEcq2Ho"
-    /><br /><br />
-    Luna:
-    <CopyText
-      address="terra1z2lj8xaqadvfxdfyjaghd57x3zcvt8233k3h8j"
+      address="BRwkLE84SQoz8XTiG3hrN9iwYHTS8YSdnjNMY5qi7r7D"
     /><br /><br />
     Polkadot:
-    <CopyText
-      address="14dAqjsNqy34kh7VfwbH8z8vNLzyT1K1QRKpn9gv4BS1ewZu"
-    /><br /><br />
-    Avalanche:
-    <CopyText
-      address="0x555f90751ce2fafe97d67bd8c75f6861ce08318a"
-    /><br /><br />
-    Doge:
-    <CopyText address="DJf2WJC5o2W7WPi7LRMd9PfYYpyiPavqh2" /><br /><br />
-    Monero:
-    <CopyText
-      address="84jtHTywSuZZXdg4K1TFmKREcbP7SwMNQ95uygHgf95oHfuEdY6YtmH5ZFZWC6bYg91heLFNJW5zeh4mtL62MFiJSsU5TMU"
-    />
+    <CopyText address="1YfKQnjEtVsp84PUYcXoSyMnbQjUnaWJmFX1GPNQgeniR1p" />
   </div>
 </template>
 

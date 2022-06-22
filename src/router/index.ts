@@ -26,6 +26,7 @@ import Login from "@/components/user-management/Login.vue";
 import ResetPassword from "@/components/user-management/ResetPassword.vue";
 import Reset from "@/components/user-management/Reset.vue";
 import AccessArchive from "@/components/access-archive/AccessArchive.vue";
+import OtherProjects from "@/components/other-projects/OtherProjects.vue";
 
 const routes = [
   {
@@ -119,6 +120,11 @@ const routes = [
         component: Donations,
       },
     ],
+  },
+  {
+    path: "/other-projects",
+    name: "other-projects",
+    component: OtherProjects,
   },
   {
     path: "/signup",

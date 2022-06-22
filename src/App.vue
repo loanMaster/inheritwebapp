@@ -40,6 +40,11 @@
                 >Are you an heir? Use your access code here</router-link
               >
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link active" to="/other-projects"
+                >Other projects</router-link
+              >
+            </li>
           </ul>
           <div class="f-flex ml-2-s mb-2-s my-center-mobile-only">
             <router-link class="mr-2" to="/login" v-if="!loggedIn"
